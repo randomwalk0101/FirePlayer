@@ -74,4 +74,4 @@ This repository's first public release is focused on stable macOS audio playback
 
 ## License
 
-Add a license before publishing if you want others to reuse or redistribute the project.
+Released under the [MIT License](LICENSE).

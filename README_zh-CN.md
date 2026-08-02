@@ -74,4 +74,4 @@ chmod +x build.command
 
 ## 许可证
 
-如果你希望其他人复用或再分发项目，请在正式发布前补充许可证。
+本项目基于 [MIT License](LICENSE) 发布。

@@ -74,4 +74,4 @@ chmod +x build.command
 
 ## 授權
 
-如果你希望其他人重用或再散布專案，請在正式發布前補上授權條款。
+本專案基於 [MIT License](LICENSE) 發布。
