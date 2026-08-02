@@ -1,0 +1,28 @@
+# macOS
+.DS_Store
+Thumbs.db
+
+# Xcode / Swift build output
+DerivedData/
+build/
+*.swiftpm/
+.swiftpm/
+
+# App and package artifacts
+*.app
+*.dmg
+*.pkg
+*.zip
+*.tar.gz
+*.icns
+*.iconset/
+
+# Temporary files
+*.log
+*.tmp
+*.swp
+*.swo
+
+# Optional local release staging
+dist/
+release/
