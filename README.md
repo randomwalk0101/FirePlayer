@@ -13,7 +13,11 @@ It does not play video files.
 
 ## Download
 
-If you are using a packaged release, download the latest `.zip` or `.dmg` from the GitHub Releases page for this repository.
+Download the first macOS release here:
+
+[FirePlayer-v1.6.11-macOS.zip](https://github.com/randomwalk0101/FirePlayer/releases/download/v1.6.11/FirePlayer-v1.6.11-macOS.zip)
+
+You can also open the [GitHub Releases page](https://github.com/randomwalk0101/FirePlayer/releases) and download the latest macOS package.
 
 If you are using the source package, download or clone the repository, then build the app locally with `build.command`.
 

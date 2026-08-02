@@ -13,7 +13,11 @@ FirePlayer 是一款面向语言学习的 macOS 轻量音频播放器。
 
 ## 下载
 
-如果你使用的是 GitHub Release 版本，请到本仓库的 Releases 页面下载最新的 `.zip` 或 `.dmg` 文件。
+第一版 macOS 下载地址：
+
+[FirePlayer-v1.6.11-macOS.zip](https://github.com/randomwalk0101/FirePlayer/releases/download/v1.6.11/FirePlayer-v1.6.11-macOS.zip)
+
+你也可以打开 [GitHub Releases 页面](https://github.com/randomwalk0101/FirePlayer/releases)，下载最新的 macOS 安装包。
 
 如果你使用的是源码包，请下载或克隆仓库后，运行 `build.command` 在本机编译。
 
