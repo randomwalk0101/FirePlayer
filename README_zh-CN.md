@@ -8,6 +8,7 @@ FirePlayer 是一款面向语言学习的桌面音频播放器，重点是大字
 
 - `FirePlayer.swift`：macOS 原生 AppKit 版本。
 - `cross-platform/`：基于 Electron 的 Windows、Ubuntu/Linux、macOS 跨平台版本。
+- `android/`：触屏优先的 Android APK 版本。
 
 FirePlayer 只播放音频，不播放视频。
 
@@ -17,16 +18,17 @@ FirePlayer 只播放音频，不播放视频。
 
 请从最新 Release 下载：
 
-[FirePlayer v1.7.2 Releases](https://github.com/randomwalk0101/FirePlayer/releases/tag/v1.7.2)
+[FirePlayer v1.8.0 Releases](https://github.com/randomwalk0101/FirePlayer/releases/tag/v1.8.0)
 
 Release 文件：
 
-- macOS Apple Silicon：`FirePlayer-v1.7.2-macOS-arm64.zip`
-- macOS Intel：`FirePlayer-v1.7.2-macOS-x86_64.zip`
-- Windows x64 安装版：`FirePlayer-v1.7.2-Windows-x64-Setup.exe`
-- Windows x64 便携版：`FirePlayer-v1.7.2-Windows-x64-Portable.exe`
-- Ubuntu x64 AppImage：`FirePlayer-v1.7.2-Ubuntu-x64.AppImage`
-- Ubuntu x64 deb：`FirePlayer-v1.7.2-Ubuntu-x64.deb`
+- macOS Apple Silicon：`FirePlayer-v1.8.0-macOS-arm64.zip`
+- macOS Intel：`FirePlayer-v1.8.0-macOS-x86_64.zip`
+- Windows x64 安装版：`FirePlayer-v1.8.0-Windows-x64-Setup.exe`
+- Windows x64 便携版：`FirePlayer-v1.8.0-Windows-x64-Portable.exe`
+- Ubuntu x64 AppImage：`FirePlayer-v1.8.0-Ubuntu-x64.AppImage`
+- Ubuntu x64 deb：`FirePlayer-v1.8.0-Ubuntu-x64.deb`
+- Android 触屏 APK：`FirePlayer-v1.8.0-Android-touch.apk`
 
 ### macOS 原生版
 
@@ -115,6 +117,34 @@ npm run build:linux
 ```
 
 产物会输出到 `cross-platform/dist/`。
+
+### Android 触屏版
+
+Android 版位于 `android/`，面向手机、平板，以及允许安装 APK 的普通 Android 车机。
+
+已实现：
+
+- 通过 Android 系统文件选择器添加本地音频。
+- 通过 Android 系统文件选择器添加本地 `.srt` 字幕。
+- 按文件名主干匹配字幕，例如 `lesson01.mp3` 和 `lesson01.srt`。
+- 横屏大字幕界面。
+- 点击字幕区域播放/暂停。
+- 触屏控制上一句/下一句、上一首/下一首、字幕字号、播放速度、显示/隐藏播放清单、清空清单。
+
+说明：
+
+- 这是普通 Android APK，不是 Android Auto 投屏应用。
+- 很多普通 Android 车机可以使用，但封闭式车机可能禁止安装第三方 APK。
+- 第一版 Android 重点是触屏操作，暂不承诺方向盘按键或外接键盘控制。
+
+构建：
+
+```bash
+cd android
+gradle :app:assembleDebug
+```
+
+产物会输出到 `android/app/build/outputs/apk/debug/`。
 
 ## 跨平台版本地运行
 

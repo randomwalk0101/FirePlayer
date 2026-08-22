@@ -8,6 +8,7 @@ The repository now contains two implementations:
 
 - `FirePlayer.swift`: native macOS AppKit version.
 - `cross-platform/`: Electron version for Windows, Ubuntu/Linux, and macOS.
+- `android/`: touch-first native Android APK version.
 
 FirePlayer plays audio files only. It does not play video files.
 
@@ -17,16 +18,17 @@ FirePlayer plays audio files only. It does not play video files.
 
 Download the latest release from:
 
-[FirePlayer v1.7.2 Releases](https://github.com/randomwalk0101/FirePlayer/releases/tag/v1.7.2)
+[FirePlayer v1.8.0 Releases](https://github.com/randomwalk0101/FirePlayer/releases/tag/v1.8.0)
 
 Release files:
 
-- macOS Apple Silicon: `FirePlayer-v1.7.2-macOS-arm64.zip`
-- macOS Intel: `FirePlayer-v1.7.2-macOS-x86_64.zip`
-- Windows x64 installer: `FirePlayer-v1.7.2-Windows-x64-Setup.exe`
-- Windows x64 portable: `FirePlayer-v1.7.2-Windows-x64-Portable.exe`
-- Ubuntu x64 AppImage: `FirePlayer-v1.7.2-Ubuntu-x64.AppImage`
-- Ubuntu x64 deb: `FirePlayer-v1.7.2-Ubuntu-x64.deb`
+- macOS Apple Silicon: `FirePlayer-v1.8.0-macOS-arm64.zip`
+- macOS Intel: `FirePlayer-v1.8.0-macOS-x86_64.zip`
+- Windows x64 installer: `FirePlayer-v1.8.0-Windows-x64-Setup.exe`
+- Windows x64 portable: `FirePlayer-v1.8.0-Windows-x64-Portable.exe`
+- Ubuntu x64 AppImage: `FirePlayer-v1.8.0-Ubuntu-x64.AppImage`
+- Ubuntu x64 deb: `FirePlayer-v1.8.0-Ubuntu-x64.deb`
+- Android touch APK: `FirePlayer-v1.8.0-Android-touch.apk`
 
 ### macOS Native Version
 
@@ -115,6 +117,34 @@ npm run build:linux
 ```
 
 Output is written to `cross-platform/dist/`.
+
+### Android Touch Version
+
+The Android version lives in `android/` and is designed for touch-first use on phones, tablets, and ordinary Android head units that allow APK installation.
+
+Implemented:
+
+- Add local audio files through the Android system file picker.
+- Add local `.srt` subtitles through the Android system file picker.
+- Match subtitles by filename stem, such as `lesson01.mp3` and `lesson01.srt`.
+- Large landscape subtitle interface.
+- Tap subtitle area to play or pause.
+- Touch controls for previous/next sentence, previous/next track, subtitle size, speed, playlist visibility, and clearing the playlist.
+
+Notes:
+
+- This is a regular Android APK, not an Android Auto projection app.
+- It should work on many ordinary Android head units, but locked-down car systems may block APK installation.
+- The first Android release is touch-first; keyboard/steering-wheel button support is not promised yet.
+
+Build:
+
+```bash
+cd android
+gradle :app:assembleDebug
+```
+
+Output is written to `android/app/build/outputs/apk/debug/`.
 
 ## Cross-Platform Development
 

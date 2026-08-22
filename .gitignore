@@ -5,6 +5,8 @@ Thumbs.db
 # Xcode / Swift build output
 DerivedData/
 build/
+android/.gradle/
+android/app/build/
 *.swiftpm/
 .swiftpm/
 
