@@ -1,5 +1,7 @@
 # FirePlayer
 
+[English](README.md) | [简体中文](README_zh-CN.md)
+
 FirePlayer is a desktop audio player for language learning. It focuses on large synchronized subtitles, quick sentence navigation, and playlist workflows for listening practice.
 
 The repository now contains two implementations:
@@ -10,6 +12,20 @@ The repository now contains two implementations:
 FirePlayer plays audio files only. It does not play video files.
 
 ## Current Status
+
+## Download
+
+Download the latest release from:
+
+[FirePlayer v1.7.0 Releases](https://github.com/randomwalk0101/FirePlayer/releases/tag/v1.7.0)
+
+Release files:
+
+- macOS Apple Silicon: `FirePlayer-v1.7.0-macOS-arm64.zip`
+- Windows x64 installer: `FirePlayer-v1.7.0-Windows-x64-Setup.exe`
+- Windows x64 portable: `FirePlayer-v1.7.0-Windows-x64-Portable.exe`
+- Ubuntu x64 AppImage: `FirePlayer-v1.7.0-Ubuntu-x64.AppImage`
+- Ubuntu x64 deb: `FirePlayer-v1.7.0-Ubuntu-x64.deb`
 
 ### macOS Native Version
 

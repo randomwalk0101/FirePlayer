@@ -1,5 +1,7 @@
 # FirePlayer
 
+[English](README.md) | [简体中文](README_zh-CN.md)
+
 FirePlayer 是一款面向语言学习的桌面音频播放器，重点是大字幕、句子跳转、字幕跟读和播放清单管理。
 
 仓库现在包含两个版本：
@@ -10,6 +12,20 @@ FirePlayer 是一款面向语言学习的桌面音频播放器，重点是大字
 FirePlayer 只播放音频，不播放视频。
 
 ## 当前状态
+
+## 下载
+
+请从最新 Release 下载：
+
+[FirePlayer v1.7.0 Releases](https://github.com/randomwalk0101/FirePlayer/releases/tag/v1.7.0)
+
+Release 文件：
+
+- macOS Apple Silicon：`FirePlayer-v1.7.0-macOS-arm64.zip`
+- Windows x64 安装版：`FirePlayer-v1.7.0-Windows-x64-Setup.exe`
+- Windows x64 便携版：`FirePlayer-v1.7.0-Windows-x64-Portable.exe`
+- Ubuntu x64 AppImage：`FirePlayer-v1.7.0-Ubuntu-x64.AppImage`
+- Ubuntu x64 deb：`FirePlayer-v1.7.0-Ubuntu-x64.deb`
 
 ### macOS 原生版
 

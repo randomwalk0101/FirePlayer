@@ -1,5 +1,7 @@
 # FirePlayer Cross Platform
 
+[English](README.md) | [简体中文](../README_zh-CN.md)
+
 This Electron version is intended for Windows, Ubuntu, and macOS.
 
 ## Run
