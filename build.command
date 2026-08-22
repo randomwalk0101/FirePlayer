@@ -3,7 +3,7 @@ set -euo pipefail
 cd "$(dirname "$0")"
 
 APP_NAME="FirePlayer"
-VERSION="1.6.11"
+VERSION="1.7.0"
 MIN_MACOS="12.0"
 APP_DIR="$PWD/${APP_NAME}.app"
 CONTENTS="$APP_DIR/Contents"
@@ -110,5 +110,7 @@ echo "最低系统：macOS $MIN_MACOS"
 echo "$ACTUAL_ARCH"
 echo
 echo "这台 Intel MacBook Pro（macOS 12.7.6）会自动生成 x86_64 版本。"
-open "$PWD"
-pause_and_exit 0
+if [[ "${CI:-}" != "true" ]]; then
+  open "$PWD"
+  pause_and_exit 0
+fi

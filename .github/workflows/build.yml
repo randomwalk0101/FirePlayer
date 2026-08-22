@@ -1,0 +1,67 @@
+name: Build FirePlayer
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  macos-native:
+    name: macOS native app
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build native macOS app
+        run: |
+          chmod +x build.command
+          printf '\n' | ./build.command
+      - name: Archive native macOS app
+        run: ditto -c -k --sequesterRsrc --keepParent FirePlayer.app FirePlayer-native-macOS-arm64.zip
+      - uses: actions/upload-artifact@v4
+        with:
+          name: FirePlayer-native-macOS-arm64
+          path: FirePlayer-native-macOS-arm64.zip
+
+  windows:
+    name: Windows x64 Electron app
+    runs-on: windows-latest
+    defaults:
+      run:
+        working-directory: cross-platform
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: cross-platform/package-lock.json
+      - run: npm ci
+      - run: npm run build:win
+      - uses: actions/upload-artifact@v4
+        with:
+          name: FirePlayer-Windows-x64
+          path: |
+            cross-platform/dist/*.exe
+            cross-platform/dist/*.blockmap
+
+  ubuntu:
+    name: Ubuntu x64 Electron app
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: cross-platform
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: cross-platform/package-lock.json
+      - run: npm ci
+      - run: npm run build:linux
+      - uses: actions/upload-artifact@v4
+        with:
+          name: FirePlayer-Ubuntu-x64
+          path: |
+            cross-platform/dist/*.AppImage
+            cross-platform/dist/*.deb

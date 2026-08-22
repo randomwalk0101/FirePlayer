@@ -9,6 +9,7 @@ build/
 .swiftpm/
 
 # App and package artifacts
+node_modules/
 *.app
 *.dmg
 *.pkg

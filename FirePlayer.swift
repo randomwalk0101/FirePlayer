@@ -67,8 +67,21 @@ final class CenteredSubtitleView: NSView {
     var showsPhoneticGuide: Bool = false { didSet { needsDisplay = true } }
     var textColor: NSColor = NSColor(calibratedRed: 1.0, green: 0.91, blue: 0.36, alpha: 1) { didSet { needsDisplay = true } }
     var font: NSFont = NSFont.systemFont(ofSize: 54, weight: .bold) { didSet { needsDisplay = true } }
+    var clickHandler: (() -> Void)?
+    var doubleClickHandler: (() -> Void)?
 
     override var isFlipped: Bool { true }
+
+    override func acceptsFirstMouse(for event: NSEvent?) -> Bool { true }
+
+    override func mouseDown(with event: NSEvent) {
+        super.mouseDown(with: event)
+        if event.clickCount == 2 {
+            doubleClickHandler?()
+        } else if event.clickCount == 1 {
+            clickHandler?()
+        }
+    }
 
     override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
@@ -405,7 +418,7 @@ enum PlaybackMode: String {
     case repeatAll = "列表循环"
 }
 
-final class PlayerViewController: NSViewController, AVAudioPlayerDelegate, NSTableViewDataSource, NSTableViewDelegate {
+final class PlayerViewController: NSViewController, AVAudioPlayerDelegate, NSTableViewDataSource, NSTableViewDelegate, NSMenuDelegate {
     private var player: AVAudioPlayer?
     private var playlist: [URL] = []
     private var currentTrackIndex = -1
@@ -424,6 +437,7 @@ final class PlayerViewController: NSViewController, AVAudioPlayerDelegate, NSTab
     private var controlsAutoHideTimer: Timer?
     private var activityEventMonitor: Any?
     private var controlsAreVisible = true
+    private var isUpdatingPlaylistSelectionFromContextMenu = false
     private weak var sentenceControlsStack: NSStackView?
     private weak var settingsControlsStack: NSStackView?
     private var isPlaylistVisible = true
@@ -435,6 +449,8 @@ final class PlayerViewController: NSViewController, AVAudioPlayerDelegate, NSTab
     private let playlistTitle = NSTextField(labelWithString: "播放清单")
     private let clearPlaylistButton = NSButton(title: "清空清单", target: nil, action: nil)
     private let tableView = NSTableView()
+    private let playlistContextMenu = NSMenu()
+    private let deletePlaylistItemsMenuItem = NSMenuItem(title: "删除所选项目", action: #selector(deleteSelectedPlaylistItems), keyEquivalent: "")
     private let scrollView = NSScrollView()
     private let emptyPlaylistLabel = NSTextField(wrappingLabelWithString: "尚未添加音频\n\n点击上方“打开音频…”\n可一次选择多个文件")
 
@@ -523,6 +539,12 @@ final class PlayerViewController: NSViewController, AVAudioPlayerDelegate, NSTab
         tableView.dataSource = self
         tableView.target = self
         tableView.doubleAction = #selector(doubleClickPlaylist)
+        tableView.allowsMultipleSelection = true
+
+        deletePlaylistItemsMenuItem.target = self
+        playlistContextMenu.delegate = self
+        playlistContextMenu.addItem(deletePlaylistItemsMenuItem)
+        tableView.menu = playlistContextMenu
 
         scrollView.documentView = tableView
         scrollView.hasVerticalScroller = true
@@ -537,6 +559,8 @@ final class PlayerViewController: NSViewController, AVAudioPlayerDelegate, NSTab
         subtitleStatusLabel.alignment = .right
 
         setSubtitleDisplay(fullText: "打开音频后，将在这里显示当前字幕")
+        subtitleLabel.clickHandler = { [weak self] in self?.togglePlay() }
+        subtitleLabel.doubleClickHandler = { [weak self] in self?.view.window?.toggleFullScreen(nil) }
 
         timeLabel.font = NSFont.monospacedDigitSystemFont(ofSize: 13, weight: .regular)
         timeLabel.textColor = .secondaryLabelColor
@@ -933,6 +957,69 @@ final class PlayerViewController: NSViewController, AVAudioPlayerDelegate, NSTab
         let row = tableView.clickedRow
         guard playlist.indices.contains(row) else { return }
         loadTrack(at: row, autoplay: true)
+    }
+
+    func menuWillOpen(_ menu: NSMenu) {
+        guard menu === playlistContextMenu else { return }
+        let clickedRow = tableView.clickedRow
+        if playlist.indices.contains(clickedRow), !tableView.selectedRowIndexes.contains(clickedRow) {
+            isUpdatingPlaylistSelectionFromContextMenu = true
+            tableView.selectRowIndexes(IndexSet(integer: clickedRow), byExtendingSelection: false)
+            isUpdatingPlaylistSelectionFromContextMenu = false
+        }
+        let selectedCount = tableView.selectedRowIndexes.count
+        deletePlaylistItemsMenuItem.title = selectedCount > 1 ? "删除所选 \(selectedCount) 项" : "删除所选项目"
+        deletePlaylistItemsMenuItem.isEnabled = selectedCount > 0
+    }
+
+    @objc private func deleteSelectedPlaylistItems() {
+        let selectedRows = tableView.selectedRowIndexes.filter { playlist.indices.contains($0) }
+        guard !selectedRows.isEmpty else { return }
+
+        let deletingCurrentTrack = selectedRows.contains(currentTrackIndex)
+        let wasPlaying = player?.isPlaying ?? false
+        if deletingCurrentTrack {
+            player?.stop()
+            timer?.invalidate()
+            saveCurrentPosition()
+        }
+
+        for row in selectedRows.sorted(by: >) {
+            playlist.remove(at: row)
+        }
+
+        tableView.reloadData()
+        emptyPlaylistLabel.isHidden = !playlist.isEmpty
+
+        if playlist.isEmpty {
+            currentTrackIndex = -1
+            player = nil
+            subtitles.removeAll()
+            currentSubtitleIndex = -1
+            subtitleURL = nil
+            availableSubtitleURLs.removeAll()
+            refreshSubtitleTrackPopup(selected: nil)
+            nowPlayingLabel.stringValue = "尚未打开音频"
+            subtitleStatusLabel.stringValue = "未加载字幕"
+            setSubtitleDisplay(fullText: "打开音频后，将在这里显示当前字幕")
+            slider.doubleValue = 0
+            slider.maxValue = 1
+            timeLabel.stringValue = "00:00 / 00:00"
+            playButton.title = "▶  播放"
+            return
+        }
+
+        let removedBeforeCurrent = selectedRows.filter { $0 < currentTrackIndex }.count
+        if deletingCurrentTrack {
+            let nextIndex = min(selectedRows.min() ?? 0, playlist.count - 1)
+            loadTrack(at: nextIndex, autoplay: wasPlaying)
+        } else {
+            currentTrackIndex -= removedBeforeCurrent
+            if playlist.indices.contains(currentTrackIndex) {
+                tableView.selectRowIndexes(IndexSet(integer: currentTrackIndex), byExtendingSelection: false)
+                tableView.scrollRowToVisible(currentTrackIndex)
+            }
+        }
     }
 
     private func loadTrack(at index: Int, autoplay: Bool) {
@@ -1397,6 +1484,8 @@ final class PlayerViewController: NSViewController, AVAudioPlayerDelegate, NSTab
     }
 
     func tableViewSelectionDidChange(_ notification: Notification) {
+        guard !isUpdatingPlaylistSelectionFromContextMenu else { return }
+        guard tableView.selectedRowIndexes.count == 1 else { return }
         let row = tableView.selectedRow
         guard playlist.indices.contains(row), row != currentTrackIndex else { return }
         loadTrack(at: row, autoplay: false)

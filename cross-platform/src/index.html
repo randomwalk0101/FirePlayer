@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FirePlayer</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <main class="app">
+    <aside id="playlistPane" class="playlist-pane">
+      <header class="playlist-header">
+        <strong>播放清单</strong>
+        <button id="clearPlaylist" title="清空播放清单">清空清单</button>
+      </header>
+      <div id="playlist" class="playlist" role="listbox" aria-label="播放清单"></div>
+      <div id="emptyPlaylist" class="empty">尚未添加音频<br><br>点击菜单“加入音频文件...”<br>或“加入文件夹...”</div>
+    </aside>
+
+    <section class="player-pane">
+      <button id="subtitleStage" class="subtitle-stage" title="点击播放或暂停">
+        <div id="englishText" class="english">打开音频后，将在这里显示当前字幕</div>
+        <div id="translationText" class="translation"></div>
+      </button>
+
+      <footer id="controls" class="controls">
+        <div class="seek-row">
+          <input id="seek" type="range" min="0" max="1" step="0.01" value="0">
+          <span id="time">00:00 / 00:00</span>
+        </div>
+        <div class="button-row">
+          <button id="previousTrack">⏮ 上一首</button>
+          <button id="playPause">▶ 播放</button>
+          <button id="nextTrack">下一首 ⏭</button>
+        </div>
+        <div class="button-row compact">
+          <button id="togglePlaylist">隐藏清单</button>
+          <button id="previousSentence">← 上一句</button>
+          <button id="nextSentence">下一句 →</button>
+          <select id="subtitleTrack"></select>
+          <button id="subtitleMode">字幕：英文</button>
+          <button id="playbackMode">顺序播放</button>
+        </div>
+        <div class="button-row compact">
+          <select id="speed">
+            <option>0.75×</option><option>0.8×</option><option>0.9×</option>
+            <option selected>1.0×</option><option>1.1×</option><option>1.2×</option>
+            <option>1.25×</option><option>1.5×</option><option>1.75×</option><option>2.0×</option>
+          </select>
+          <button id="smallerFont">A−</button>
+          <span id="fontSize">字号 54</span>
+          <button id="largerFont">A+</button>
+          <label class="color-control">字幕颜色 <input id="subtitleColor" type="color" value="#ffe85c"></label>
+          <span>🔊</span>
+          <input id="volume" type="range" min="0" max="1" step="0.01" value="1">
+        </div>
+      </footer>
+    </section>
+  </main>
+
+  <menu id="playlistMenu" class="context-menu">
+    <button id="deleteSelected" type="button">删除所选项目</button>
+  </menu>
+
+  <audio id="audio"></audio>
+  <script src="./renderer.js"></script>
+</body>
+</html>

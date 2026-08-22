@@ -1,56 +1,39 @@
 # FirePlayer
 
-FirePlayer is a lightweight macOS audio player for language learning.
+FirePlayer is a desktop audio player for language learning. It focuses on large synchronized subtitles, quick sentence navigation, and playlist workflows for listening practice.
 
-It currently supports:
+The repository now contains two implementations:
 
-- macOS 12.0 or later
-- Intel Macs
-- Apple Silicon Macs
-- Audio playback only
+- `FirePlayer.swift`: native macOS AppKit version.
+- `cross-platform/`: Electron version for Windows, Ubuntu/Linux, and macOS.
 
-It does not play video files.
+FirePlayer plays audio files only. It does not play video files.
 
-## Download
+## Current Status
 
-Download the first macOS release here:
+### macOS Native Version
 
-[FirePlayer-v1.6.11-macOS.zip](https://github.com/randomwalk0101/FirePlayer/releases/download/v1.6.11/FirePlayer-v1.6.11-macOS.zip)
+The macOS version is the most complete version today.
 
-You can also open the [GitHub Releases page](https://github.com/randomwalk0101/FirePlayer/releases) and download the latest macOS package.
+Recent improvements:
 
-If you are using the source package, download or clone the repository, then build the app locally with `build.command`.
+- Playlist supports multi-select.
+- Right-click playlist deletion can remove one or many selected items.
+- Single-clicking the subtitle area toggles play/pause.
+- Double-clicking the subtitle area enters or exits full screen.
+- Subtitle file selector supports multiple matching `.srt` variants for the current audio.
+- Subtitle display modes include English, bilingual, stress skeleton, speech-flow annotation, and pronunciation hints.
+- Playback modes include sequential playback, repeat one, and repeat all.
+- Font size, subtitle color, speed, volume, previous/next sentence, and previous/next track controls are available.
 
-## Install
+Build:
 
-1. Download the release archive or source package.
-2. Unzip the file.
-3. Double-click `build.command` to build `FirePlayer.app`.
-4. When macOS asks for permission, allow Terminal or your shell to run the script.
-5. After the build finishes, open `FirePlayer.app`.
+```bash
+chmod +x build.command
+./build.command
+```
 
-If macOS blocks the first launch:
-
-1. Control-click `FirePlayer.app`.
-2. Choose `Open`.
-3. Confirm the security prompt.
-
-## Supported Macs
-
-- Intel-based Macs: builds an `x86_64` app.
-- Apple Silicon Macs: builds an `arm64` app.
-
-The same source can be built on either machine type, but the resulting app is architecture-specific.
-
-## Usage
-
-FirePlayer is designed for language study with audio files.
-
-- Open an audio file from Finder, or use the app's open flow if available.
-- Use subtitles if you want to follow along while listening.
-- Use the playback controls to pause, resume, and seek.
-
-## Build From Source
+The script creates `FirePlayer.app` in the repository folder.
 
 Requirements:
 
@@ -58,19 +41,100 @@ Requirements:
 - Xcode Command Line Tools
 - `swiftc`, `xcrun`, `sips`, and `iconutil`
 
-Build steps:
+Architecture note:
+
+- Building on Apple Silicon creates an `arm64` app.
+- Building on Intel creates an `x86_64` app.
+
+### Windows Version
+
+The Windows version lives in `cross-platform/` and uses Electron.
+
+Implemented:
+
+- Add audio files.
+- Add folders and import audio files from them.
+- Match nearby `.srt` subtitle files by audio filename.
+- Switch subtitle variants.
+- Playlist multi-select with `Ctrl` or `Shift`.
+- Right-click deletion for one or many selected playlist items.
+- Single-click subtitle area to play/pause.
+- Double-click subtitle area to enter/exit full screen.
+- Adjustable subtitle size with `A-` and `A+`.
+- Subtitle size is applied through both CSS variables and direct inline styles so it updates reliably on Windows.
+- Subtitle color, volume, speed, previous/next track, previous/next sentence, and playback mode controls.
+
+Build on Windows:
 
 ```bash
-cd /path/to/FirePlayer
-chmod +x build.command
-./build.command
+cd cross-platform
+npm install
+npm run build:win
 ```
 
-The script builds a local `FirePlayer.app` in the project folder.
+Output is written to `cross-platform/dist/`.
 
-## Release Notes
+### Ubuntu / Linux Version
 
-This repository's first public release is focused on stable macOS audio playback for language learning. Video playback is not supported yet.
+The Ubuntu version also lives in `cross-platform/` and uses the same Electron codebase.
+
+Implemented:
+
+- Same core playback, subtitle, playlist, right-click deletion, click-to-play, double-click-fullscreen, and font-size controls as the Windows version.
+- Linux packaging targets are configured for AppImage and Debian package output.
+- Subtitle size is applied through both CSS variables and direct inline styles so it updates reliably on Ubuntu/Linux desktop environments.
+
+Build on Ubuntu:
+
+```bash
+cd cross-platform
+npm install
+npm run build:linux
+```
+
+Output is written to `cross-platform/dist/`.
+
+## Cross-Platform Development
+
+Run the Electron app locally:
+
+```bash
+cd cross-platform
+npm install
+npm start
+```
+
+Available scripts:
+
+```bash
+npm run pack
+npm run build:win
+npm run build:linux
+npm run build:mac
+```
+
+Recommended packaging practice:
+
+- Build the Windows installer on Windows.
+- Build Ubuntu/Linux packages on Ubuntu.
+- Build macOS packages on macOS.
+
+Electron can cross-build some targets, but native packaging is more reliable and avoids missing platform tools such as Wine or Linux package dependencies.
+
+## Subtitle Naming
+
+FirePlayer automatically matches subtitles near the audio file. Supported naming examples:
+
+```text
+lesson01.mp3
+lesson01.srt
+lesson01.en.srt
+lesson01.bi.srt
+lesson01.zh.srt
+lesson01.stress.en.srt
+lesson01.flow.en.srt
+lesson01.phonetic.en.srt
+```
 
 ## License
 

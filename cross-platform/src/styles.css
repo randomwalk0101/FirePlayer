@@ -1,0 +1,228 @@
+:root {
+  color-scheme: dark;
+  --bg: #101010;
+  --panel: #181818;
+  --panel-2: #202020;
+  --line: #313131;
+  --text: #eeeeee;
+  --muted: #a8a8a8;
+  --accent: #ffe85c;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  overflow: hidden;
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", Arial, sans-serif;
+}
+
+button, select, input {
+  font: inherit;
+}
+
+button, select {
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: #2a2a2a;
+  color: var(--text);
+  min-height: 28px;
+  padding: 4px 10px;
+}
+
+button:hover, select:hover { background: #363636; }
+button:active { background: #444; }
+
+.app {
+  display: grid;
+  grid-template-columns: 285px 1fr;
+  width: 100vw;
+  height: 100vh;
+  background: var(--bg);
+}
+
+.app.playlist-hidden {
+  grid-template-columns: 0 1fr;
+}
+
+.playlist-pane {
+  position: relative;
+  overflow: hidden;
+  min-width: 0;
+  background: var(--panel);
+  border-right: 1px solid var(--line);
+}
+
+.playlist-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 18px 14px 12px 18px;
+}
+
+.playlist-header strong { font-size: 16px; }
+.playlist-header button { font-size: 12px; min-height: 26px; }
+
+.playlist {
+  height: calc(100vh - 68px);
+  overflow: auto;
+  padding: 8px;
+  user-select: none;
+}
+
+.track {
+  display: flex;
+  align-items: center;
+  height: 48px;
+  padding: 0 12px;
+  border-radius: 7px;
+  color: #e8e8e8;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.track:hover { background: #282828; }
+.track.selected { background: #4c4c4c; }
+.track.playing { color: white; }
+
+.empty {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  color: var(--muted);
+  text-align: center;
+  line-height: 1.5;
+  pointer-events: none;
+}
+
+.empty.hidden { display: none; }
+
+.player-pane {
+  display: grid;
+  grid-template-rows: 1fr auto;
+  min-width: 0;
+  min-height: 0;
+}
+
+.subtitle-stage {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: clamp(14px, 2.3vh, 28px);
+  width: 100%;
+  min-height: 0;
+  padding: 28px 34px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  cursor: pointer;
+  text-align: center;
+}
+
+.subtitle-stage:hover { background: #131313; }
+
+.english {
+  color: var(--accent);
+  font-size: var(--subtitle-size, 54px);
+  font-weight: 800;
+  line-height: 1.24;
+  text-shadow: 0 2px 4px #000;
+  overflow-wrap: anywhere;
+}
+
+.translation {
+  color: rgba(255, 255, 255, 0.92);
+  font-size: calc(var(--subtitle-size, 54px) * 0.58);
+  font-weight: 650;
+  line-height: 1.25;
+  text-shadow: 0 2px 4px #000;
+  overflow-wrap: anywhere;
+}
+
+.translation:empty { display: none; }
+
+.controls {
+  padding: 8px 26px 14px;
+  background: rgba(16, 16, 16, 0.95);
+}
+
+.seek-row {
+  display: grid;
+  grid-template-columns: 1fr 135px;
+  align-items: center;
+  gap: 12px;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+  font-size: 13px;
+}
+
+.button-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 8px;
+  flex-wrap: wrap;
+}
+
+.button-row.compact {
+  gap: 7px;
+  margin-top: 7px;
+  font-size: 13px;
+}
+
+#playPause, #previousTrack, #nextTrack {
+  min-width: 116px;
+  min-height: 30px;
+  font-weight: 700;
+}
+
+#subtitleTrack { max-width: min(360px, 38vw); }
+#volume { width: 90px; }
+
+.color-control {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 28px;
+  padding: 4px 8px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: #2a2a2a;
+}
+
+.color-control input {
+  width: 28px;
+  height: 20px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+
+.context-menu {
+  position: fixed;
+  display: none;
+  z-index: 10;
+  margin: 0;
+  padding: 5px;
+  border: 1px solid #494949;
+  border-radius: 6px;
+  background: #262626;
+  box-shadow: 0 12px 34px rgba(0, 0, 0, 0.45);
+}
+
+.context-menu.open { display: block; }
+.context-menu button { width: 100%; text-align: left; }
+
+@media (max-width: 900px) {
+  .app { grid-template-columns: 245px 1fr; }
+  .button-row.compact { font-size: 12px; gap: 5px; }
+  button, select { padding-inline: 7px; }
+}
