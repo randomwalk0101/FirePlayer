@@ -7,20 +7,23 @@ on:
 
 jobs:
   macos-native:
-    name: macOS native app
+    name: macOS native app (${{ matrix.arch }})
     runs-on: macos-14
+    strategy:
+      matrix:
+        arch: [arm64, x86_64]
     steps:
       - uses: actions/checkout@v4
       - name: Build native macOS app
         run: |
           chmod +x build.command
-          printf '\n' | ./build.command
+          CI=true FIREPLAYER_TARGET_ARCH=${{ matrix.arch }} ./build.command
       - name: Archive native macOS app
-        run: ditto -c -k --sequesterRsrc --keepParent FirePlayer.app FirePlayer-native-macOS-arm64.zip
+        run: ditto -c -k --sequesterRsrc --keepParent FirePlayer.app FirePlayer-native-macOS-${{ matrix.arch }}.zip
       - uses: actions/upload-artifact@v4
         with:
-          name: FirePlayer-native-macOS-arm64
-          path: FirePlayer-native-macOS-arm64.zip
+          name: FirePlayer-native-macOS-${{ matrix.arch }}
+          path: FirePlayer-native-macOS-${{ matrix.arch }}.zip
 
   windows:
     name: Windows x64 Electron app

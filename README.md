@@ -17,15 +17,16 @@ FirePlayer plays audio files only. It does not play video files.
 
 Download the latest release from:
 
-[FirePlayer v1.7.0 Releases](https://github.com/randomwalk0101/FirePlayer/releases/tag/v1.7.0)
+[FirePlayer v1.7.1 Releases](https://github.com/randomwalk0101/FirePlayer/releases/tag/v1.7.1)
 
 Release files:
 
-- macOS Apple Silicon: `FirePlayer-v1.7.0-macOS-arm64.zip`
-- Windows x64 installer: `FirePlayer-v1.7.0-Windows-x64-Setup.exe`
-- Windows x64 portable: `FirePlayer-v1.7.0-Windows-x64-Portable.exe`
-- Ubuntu x64 AppImage: `FirePlayer-v1.7.0-Ubuntu-x64.AppImage`
-- Ubuntu x64 deb: `FirePlayer-v1.7.0-Ubuntu-x64.deb`
+- macOS Apple Silicon: `FirePlayer-v1.7.1-macOS-arm64.zip`
+- macOS Intel: `FirePlayer-v1.7.1-macOS-x86_64.zip`
+- Windows x64 installer: `FirePlayer-v1.7.1-Windows-x64-Setup.exe`
+- Windows x64 portable: `FirePlayer-v1.7.1-Windows-x64-Portable.exe`
+- Ubuntu x64 AppImage: `FirePlayer-v1.7.1-Ubuntu-x64.AppImage`
+- Ubuntu x64 deb: `FirePlayer-v1.7.1-Ubuntu-x64.deb`
 
 ### macOS Native Version
 
@@ -59,8 +60,10 @@ Requirements:
 
 Architecture note:
 
-- Building on Apple Silicon creates an `arm64` app.
-- Building on Intel creates an `x86_64` app.
+- Download `macOS-arm64` for Apple Silicon Macs.
+- Download `macOS-x86_64` for Intel Macs.
+- Local builds default to the current Mac architecture.
+- To build a specific architecture locally, set `FIREPLAYER_TARGET_ARCH=arm64` or `FIREPLAYER_TARGET_ARCH=x86_64`.
 
 ### Windows Version
 

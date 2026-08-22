@@ -3,7 +3,7 @@ set -euo pipefail
 cd "$(dirname "$0")"
 
 APP_NAME="FirePlayer"
-VERSION="1.7.0"
+VERSION="1.7.1"
 MIN_MACOS="12.0"
 APP_DIR="$PWD/${APP_NAME}.app"
 CONTENTS="$APP_DIR/Contents"
@@ -24,17 +24,13 @@ if ! command -v swiftc >/dev/null 2>&1; then
 fi
 
 HOST_ARCH="$(uname -m)"
-case "$HOST_ARCH" in
-  x86_64)
-    TARGET_ARCH="x86_64"
-    CHIP_NAME="Intel"
-    ;;
-  arm64)
-    TARGET_ARCH="arm64"
-    CHIP_NAME="Apple Silicon"
-    ;;
+TARGET_ARCH="${FIREPLAYER_TARGET_ARCH:-$HOST_ARCH}"
+case "$TARGET_ARCH" in
+  x86_64) CHIP_NAME="Intel" ;;
+  arm64) CHIP_NAME="Apple Silicon" ;;
   *)
-    echo "不支持的处理器架构：$HOST_ARCH"
+    echo "不支持的输出架构：$TARGET_ARCH"
+    echo "可用值：arm64 或 x86_64"
     pause_and_exit 1
     ;;
 esac
@@ -49,8 +45,8 @@ rm -rf "$APP_DIR"
 mkdir -p "$MACOS" "$RESOURCES"
 
 echo "正在编译 FirePlayer $VERSION..."
-echo "当前电脑：$CHIP_NAME ($HOST_ARCH)"
-echo "输出架构：$TARGET_ARCH"
+echo "当前电脑架构：$HOST_ARCH"
+echo "输出架构：$TARGET_ARCH ($CHIP_NAME)"
 echo "最低系统：macOS $MIN_MACOS"
 echo
 

@@ -11,20 +11,23 @@ permissions:
 
 jobs:
   macos-native:
-    name: macOS native app
+    name: macOS native app (${{ matrix.arch }})
     runs-on: macos-14
+    strategy:
+      matrix:
+        arch: [arm64, x86_64]
     steps:
       - uses: actions/checkout@v4
       - name: Build native macOS app
         run: |
           chmod +x build.command
-          CI=true ./build.command
+          CI=true FIREPLAYER_TARGET_ARCH=${{ matrix.arch }} ./build.command
       - name: Archive app
-        run: ditto -c -k --sequesterRsrc --keepParent FirePlayer.app FirePlayer-${{ github.ref_name }}-macOS-arm64.zip
+        run: ditto -c -k --sequesterRsrc --keepParent FirePlayer.app FirePlayer-${{ github.ref_name }}-macOS-${{ matrix.arch }}.zip
       - uses: actions/upload-artifact@v4
         with:
-          name: macos-native
-          path: FirePlayer-${{ github.ref_name }}-macOS-arm64.zip
+          name: macos-native-${{ matrix.arch }}
+          path: FirePlayer-${{ github.ref_name }}-macOS-${{ matrix.arch }}.zip
 
   windows:
     name: Windows x64 app
@@ -45,8 +48,8 @@ jobs:
         shell: pwsh
         run: |
           New-Item -ItemType Directory -Force release | Out-Null
-          Copy-Item "dist/FirePlayer Setup 1.7.0.exe" "release/FirePlayer-${{ github.ref_name }}-Windows-x64-Setup.exe"
-          Copy-Item "dist/FirePlayer 1.7.0.exe" "release/FirePlayer-${{ github.ref_name }}-Windows-x64-Portable.exe"
+          Copy-Item "dist/FirePlayer Setup 1.7.1.exe" "release/FirePlayer-${{ github.ref_name }}-Windows-x64-Setup.exe"
+          Copy-Item "dist/FirePlayer 1.7.1.exe" "release/FirePlayer-${{ github.ref_name }}-Windows-x64-Portable.exe"
       - uses: actions/upload-artifact@v4
         with:
           name: windows-x64
@@ -70,8 +73,8 @@ jobs:
       - name: Rename Ubuntu assets
         run: |
           mkdir -p release
-          cp dist/FirePlayer-1.7.0.AppImage release/FirePlayer-${{ github.ref_name }}-Ubuntu-x64.AppImage
-          cp dist/fireplayer-cross-platform_1.7.0_amd64.deb release/FirePlayer-${{ github.ref_name }}-Ubuntu-x64.deb
+          cp dist/FirePlayer-1.7.1.AppImage release/FirePlayer-${{ github.ref_name }}-Ubuntu-x64.AppImage
+          cp dist/fireplayer-cross-platform_1.7.1_amd64.deb release/FirePlayer-${{ github.ref_name }}-Ubuntu-x64.deb
       - uses: actions/upload-artifact@v4
         with:
           name: ubuntu-x64
@@ -95,6 +98,7 @@ jobs:
 
             Downloads:
             - macOS Apple Silicon: `FirePlayer-${{ github.ref_name }}-macOS-arm64.zip`
+            - macOS Intel: `FirePlayer-${{ github.ref_name }}-macOS-x86_64.zip`
             - Windows x64 installer: `FirePlayer-${{ github.ref_name }}-Windows-x64-Setup.exe`
             - Windows x64 portable: `FirePlayer-${{ github.ref_name }}-Windows-x64-Portable.exe`
             - Ubuntu x64 AppImage: `FirePlayer-${{ github.ref_name }}-Ubuntu-x64.AppImage`

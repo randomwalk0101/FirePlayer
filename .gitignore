@@ -27,3 +27,4 @@ node_modules/
 # Optional local release staging
 dist/
 release/
+release-assets/

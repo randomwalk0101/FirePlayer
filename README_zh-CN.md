@@ -17,15 +17,16 @@ FirePlayer 只播放音频，不播放视频。
 
 请从最新 Release 下载：
 
-[FirePlayer v1.7.0 Releases](https://github.com/randomwalk0101/FirePlayer/releases/tag/v1.7.0)
+[FirePlayer v1.7.1 Releases](https://github.com/randomwalk0101/FirePlayer/releases/tag/v1.7.1)
 
 Release 文件：
 
-- macOS Apple Silicon：`FirePlayer-v1.7.0-macOS-arm64.zip`
-- Windows x64 安装版：`FirePlayer-v1.7.0-Windows-x64-Setup.exe`
-- Windows x64 便携版：`FirePlayer-v1.7.0-Windows-x64-Portable.exe`
-- Ubuntu x64 AppImage：`FirePlayer-v1.7.0-Ubuntu-x64.AppImage`
-- Ubuntu x64 deb：`FirePlayer-v1.7.0-Ubuntu-x64.deb`
+- macOS Apple Silicon：`FirePlayer-v1.7.1-macOS-arm64.zip`
+- macOS Intel：`FirePlayer-v1.7.1-macOS-x86_64.zip`
+- Windows x64 安装版：`FirePlayer-v1.7.1-Windows-x64-Setup.exe`
+- Windows x64 便携版：`FirePlayer-v1.7.1-Windows-x64-Portable.exe`
+- Ubuntu x64 AppImage：`FirePlayer-v1.7.1-Ubuntu-x64.AppImage`
+- Ubuntu x64 deb：`FirePlayer-v1.7.1-Ubuntu-x64.deb`
 
 ### macOS 原生版
 
@@ -59,8 +60,10 @@ chmod +x build.command
 
 架构说明：
 
-- 在 Apple Silicon 上构建会生成 `arm64` 应用。
-- 在 Intel Mac 上构建会生成 `x86_64` 应用。
+- Apple Silicon Mac 请下载 `macOS-arm64`。
+- Intel Mac 请下载 `macOS-x86_64`。
+- 本地构建默认使用当前 Mac 的架构。
+- 如需指定架构，可设置 `FIREPLAYER_TARGET_ARCH=arm64` 或 `FIREPLAYER_TARGET_ARCH=x86_64`。
 
 ### Windows 版
 
