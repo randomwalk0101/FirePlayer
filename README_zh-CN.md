@@ -17,16 +17,16 @@ FirePlayer 只播放音频，不播放视频。
 
 请从最新 Release 下载：
 
-[FirePlayer v1.7.1 Releases](https://github.com/randomwalk0101/FirePlayer/releases/tag/v1.7.1)
+[FirePlayer v1.7.2 Releases](https://github.com/randomwalk0101/FirePlayer/releases/tag/v1.7.2)
 
 Release 文件：
 
-- macOS Apple Silicon：`FirePlayer-v1.7.1-macOS-arm64.zip`
-- macOS Intel：`FirePlayer-v1.7.1-macOS-x86_64.zip`
-- Windows x64 安装版：`FirePlayer-v1.7.1-Windows-x64-Setup.exe`
-- Windows x64 便携版：`FirePlayer-v1.7.1-Windows-x64-Portable.exe`
-- Ubuntu x64 AppImage：`FirePlayer-v1.7.1-Ubuntu-x64.AppImage`
-- Ubuntu x64 deb：`FirePlayer-v1.7.1-Ubuntu-x64.deb`
+- macOS Apple Silicon：`FirePlayer-v1.7.2-macOS-arm64.zip`
+- macOS Intel：`FirePlayer-v1.7.2-macOS-x86_64.zip`
+- Windows x64 安装版：`FirePlayer-v1.7.2-Windows-x64-Setup.exe`
+- Windows x64 便携版：`FirePlayer-v1.7.2-Windows-x64-Portable.exe`
+- Ubuntu x64 AppImage：`FirePlayer-v1.7.2-Ubuntu-x64.AppImage`
+- Ubuntu x64 deb：`FirePlayer-v1.7.2-Ubuntu-x64.deb`
 
 ### macOS 原生版
 
@@ -38,6 +38,7 @@ macOS 原生版是目前功能最完整的版本。
 - 播放清单可右键删除一个或多个已选项目。
 - 单击字幕区域可播放/暂停。
 - 双击字幕区域可进入/退出全屏。
+- 支持键盘快捷键：播放/暂停、全屏、上一句/下一句、上一首/下一首。
 - 支持为当前音频切换不同 `.srt` 字幕版本。
 - 字幕显示模式包括英文、双语、重音骨架、语流标注、发音提示。
 - 播放模式包括顺序播放、单曲循环、列表循环。
@@ -81,6 +82,7 @@ Windows 版位于 `cross-platform/`，使用 Electron 实现。
 - 双击字幕区域进入/退出全屏。
 - `A-` / `A+` 调整字幕字号。
 - 字幕字号同时通过 CSS 变量和内联样式应用，专门避免 Windows 上字号不刷新或不生效的问题。
+- 键盘快捷键与 macOS 版保持一致。
 - 支持字幕颜色、音量、速度、上一首/下一首、上一句/下一句、播放模式。
 
 在 Windows 上构建：
@@ -100,6 +102,7 @@ Ubuntu/Linux 版同样位于 `cross-platform/`，与 Windows 版共用 Electron 
 已实现：
 
 - 与 Windows 版相同的核心播放、字幕、清单、右键删除、点击播放、双击全屏和字号调整能力。
+- 与 macOS、Windows 版相同的键盘快捷键。
 - 已配置 AppImage 和 Debian 包构建目标。
 - 字幕字号同样通过 CSS 变量和内联样式双路径应用，保证在 Ubuntu/Linux 桌面环境中可靠刷新。
 
@@ -114,6 +117,18 @@ npm run build:linux
 产物会输出到 `cross-platform/dist/`。
 
 ## 跨平台版本地运行
+
+## 键盘快捷键
+
+- `Space`：播放 / 暂停
+- `F`：进入 / 退出全屏
+- `Esc`：退出全屏
+- `←`：上一句
+- `→`：下一句
+- `Ctrl`/`Cmd` + `←`：上一首
+- `Ctrl`/`Cmd` + `→`：下一首
+
+macOS 原生版和 Windows/Ubuntu Electron 版都支持同一套快捷键。
 
 ```bash
 cd cross-platform

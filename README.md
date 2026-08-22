@@ -17,16 +17,16 @@ FirePlayer plays audio files only. It does not play video files.
 
 Download the latest release from:
 
-[FirePlayer v1.7.1 Releases](https://github.com/randomwalk0101/FirePlayer/releases/tag/v1.7.1)
+[FirePlayer v1.7.2 Releases](https://github.com/randomwalk0101/FirePlayer/releases/tag/v1.7.2)
 
 Release files:
 
-- macOS Apple Silicon: `FirePlayer-v1.7.1-macOS-arm64.zip`
-- macOS Intel: `FirePlayer-v1.7.1-macOS-x86_64.zip`
-- Windows x64 installer: `FirePlayer-v1.7.1-Windows-x64-Setup.exe`
-- Windows x64 portable: `FirePlayer-v1.7.1-Windows-x64-Portable.exe`
-- Ubuntu x64 AppImage: `FirePlayer-v1.7.1-Ubuntu-x64.AppImage`
-- Ubuntu x64 deb: `FirePlayer-v1.7.1-Ubuntu-x64.deb`
+- macOS Apple Silicon: `FirePlayer-v1.7.2-macOS-arm64.zip`
+- macOS Intel: `FirePlayer-v1.7.2-macOS-x86_64.zip`
+- Windows x64 installer: `FirePlayer-v1.7.2-Windows-x64-Setup.exe`
+- Windows x64 portable: `FirePlayer-v1.7.2-Windows-x64-Portable.exe`
+- Ubuntu x64 AppImage: `FirePlayer-v1.7.2-Ubuntu-x64.AppImage`
+- Ubuntu x64 deb: `FirePlayer-v1.7.2-Ubuntu-x64.deb`
 
 ### macOS Native Version
 
@@ -38,6 +38,7 @@ Recent improvements:
 - Right-click playlist deletion can remove one or many selected items.
 - Single-clicking the subtitle area toggles play/pause.
 - Double-clicking the subtitle area enters or exits full screen.
+- Keyboard shortcuts are available for play/pause, full screen, sentence navigation, and track navigation.
 - Subtitle file selector supports multiple matching `.srt` variants for the current audio.
 - Subtitle display modes include English, bilingual, stress skeleton, speech-flow annotation, and pronunciation hints.
 - Playback modes include sequential playback, repeat one, and repeat all.
@@ -81,6 +82,7 @@ Implemented:
 - Double-click subtitle area to enter/exit full screen.
 - Adjustable subtitle size with `A-` and `A+`.
 - Subtitle size is applied through both CSS variables and direct inline styles so it updates reliably on Windows.
+- Keyboard shortcuts match the macOS version.
 - Subtitle color, volume, speed, previous/next track, previous/next sentence, and playback mode controls.
 
 Build on Windows:
@@ -100,6 +102,7 @@ The Ubuntu version also lives in `cross-platform/` and uses the same Electron co
 Implemented:
 
 - Same core playback, subtitle, playlist, right-click deletion, click-to-play, double-click-fullscreen, and font-size controls as the Windows version.
+- Same keyboard shortcuts as the macOS and Windows versions.
 - Linux packaging targets are configured for AppImage and Debian package output.
 - Subtitle size is applied through both CSS variables and direct inline styles so it updates reliably on Ubuntu/Linux desktop environments.
 
@@ -114,6 +117,18 @@ npm run build:linux
 Output is written to `cross-platform/dist/`.
 
 ## Cross-Platform Development
+
+## Keyboard Shortcuts
+
+- `Space`: play / pause
+- `F`: enter / exit full screen
+- `Esc`: exit full screen
+- `Left Arrow`: previous sentence
+- `Right Arrow`: next sentence
+- `Ctrl`/`Cmd` + `Left Arrow`: previous track
+- `Ctrl`/`Cmd` + `Right Arrow`: next track
+
+The same shortcuts are implemented in the native macOS version and the Electron Windows/Ubuntu version.
 
 Run the Electron app locally:
 

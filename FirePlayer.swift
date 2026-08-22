@@ -740,9 +740,59 @@ final class PlayerViewController: NSViewController, AVAudioPlayerDelegate, NSTab
                 if event.window === strongSelf.view.window || event.type == .keyDown {
                     strongSelf.showControlsAndScheduleHide()
                 }
+                if event.type == .keyDown, event.window === strongSelf.view.window, strongSelf.handleKeyboardShortcut(event) {
+                    return nil
+                }
             }
             return event
         }
+    }
+
+    private func handleKeyboardShortcut(_ event: NSEvent) -> Bool {
+        guard !isTypingInEditableControl(event) else { return false }
+
+        let modifiers = event.modifierFlags.intersection(.deviceIndependentFlagsMask)
+        let hasCommandOrControl = modifiers.contains(.command) || modifiers.contains(.control)
+
+        if event.keyCode == 49 {
+            togglePlay()
+            return true
+        }
+        if event.keyCode == 3, modifiers.subtracting([.shift, .capsLock]).isEmpty {
+            view.window?.toggleFullScreen(nil)
+            return true
+        }
+        if event.keyCode == 53 {
+            if view.window?.styleMask.contains(.fullScreen) == true {
+                view.window?.toggleFullScreen(nil)
+                return true
+            }
+            return false
+        }
+        if event.keyCode == 123 {
+            if hasCommandOrControl {
+                previousTrack()
+            } else {
+                previousSubtitle()
+            }
+            return true
+        }
+        if event.keyCode == 124 {
+            if hasCommandOrControl {
+                nextTrack()
+            } else {
+                nextSubtitle()
+            }
+            return true
+        }
+        return false
+    }
+
+    private func isTypingInEditableControl(_ event: NSEvent) -> Bool {
+        guard let responder = event.window?.firstResponder else { return false }
+        if responder is NSTextView { return true }
+        if let control = responder as? NSControl, control.currentEditor() != nil { return true }
+        return false
     }
 
     private func showControlsAndScheduleHide() {

@@ -48,8 +48,8 @@ jobs:
         shell: pwsh
         run: |
           New-Item -ItemType Directory -Force release | Out-Null
-          Copy-Item "dist/FirePlayer Setup 1.7.1.exe" "release/FirePlayer-${{ github.ref_name }}-Windows-x64-Setup.exe"
-          Copy-Item "dist/FirePlayer 1.7.1.exe" "release/FirePlayer-${{ github.ref_name }}-Windows-x64-Portable.exe"
+          Copy-Item "dist/FirePlayer Setup 1.7.2.exe" "release/FirePlayer-${{ github.ref_name }}-Windows-x64-Setup.exe"
+          Copy-Item "dist/FirePlayer 1.7.2.exe" "release/FirePlayer-${{ github.ref_name }}-Windows-x64-Portable.exe"
       - uses: actions/upload-artifact@v4
         with:
           name: windows-x64
@@ -73,8 +73,8 @@ jobs:
       - name: Rename Ubuntu assets
         run: |
           mkdir -p release
-          cp dist/FirePlayer-1.7.1.AppImage release/FirePlayer-${{ github.ref_name }}-Ubuntu-x64.AppImage
-          cp dist/fireplayer-cross-platform_1.7.1_amd64.deb release/FirePlayer-${{ github.ref_name }}-Ubuntu-x64.deb
+          cp dist/FirePlayer-1.7.2.AppImage release/FirePlayer-${{ github.ref_name }}-Ubuntu-x64.AppImage
+          cp dist/fireplayer-cross-platform_1.7.2_amd64.deb release/FirePlayer-${{ github.ref_name }}-Ubuntu-x64.deb
       - uses: actions/upload-artifact@v4
         with:
           name: ubuntu-x64

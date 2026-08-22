@@ -94,6 +94,11 @@ ipcMain.handle('window:toggle-fullscreen', async () => {
   mainWindow.setFullScreen(!mainWindow.isFullScreen());
   return mainWindow.isFullScreen();
 });
+ipcMain.handle('window:exit-fullscreen', async () => {
+  if (!mainWindow) return false;
+  if (mainWindow.isFullScreen()) mainWindow.setFullScreen(false);
+  return mainWindow.isFullScreen();
+});
 
 app.whenReady().then(() => {
   createWindow();

@@ -3,7 +3,7 @@ set -euo pipefail
 cd "$(dirname "$0")"
 
 APP_NAME="FirePlayer"
-VERSION="1.7.1"
+VERSION="1.7.2"
 MIN_MACOS="12.0"
 APP_DIR="$PWD/${APP_NAME}.app"
 CONTENTS="$APP_DIR/Contents"
@@ -60,7 +60,7 @@ swiftc FirePlayer.swift \
   -o "$MACOS/$APP_NAME"
 
 if [[ -f "AppIcon.png" ]]; then
-  ICONSET="$PWD/AppIcon.iconset"
+  ICONSET="$PWD/AppIcon-${TARGET_ARCH}.iconset"
   rm -rf "$ICONSET" && mkdir -p "$ICONSET"
   sips -z 16 16 AppIcon.png --out "$ICONSET/icon_16x16.png" >/dev/null
   sips -z 32 32 AppIcon.png --out "$ICONSET/icon_16x16@2x.png" >/dev/null

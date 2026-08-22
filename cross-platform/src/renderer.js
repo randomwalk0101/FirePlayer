@@ -395,6 +395,49 @@ togglePlaylist.addEventListener('click', () => {
   togglePlaylist.textContent = playlistVisible ? '隐藏清单' : '显示清单';
 });
 
+document.addEventListener('keydown', (event) => {
+  const target = event.target;
+  const isEditing = target && (
+    target.tagName === 'INPUT' ||
+    target.tagName === 'SELECT' ||
+    target.tagName === 'TEXTAREA' ||
+    target.isContentEditable
+  );
+  if (isEditing) return;
+
+  if (event.code === 'Space') {
+    event.preventDefault();
+    if (audio.src) audio.paused ? audio.play() : audio.pause();
+    return;
+  }
+  if (event.key.toLowerCase() === 'f' && !event.ctrlKey && !event.metaKey && !event.altKey) {
+    event.preventDefault();
+    api.toggleFullscreen();
+    return;
+  }
+  if (event.key === 'Escape') {
+    api.exitFullscreen();
+    return;
+  }
+  if (event.key === 'ArrowLeft') {
+    event.preventDefault();
+    if (event.ctrlKey || event.metaKey) {
+      if (playlist.length) loadTrack(currentTrackIndex > 0 ? currentTrackIndex - 1 : playlist.length - 1, true);
+    } else {
+      previousSentence.click();
+    }
+    return;
+  }
+  if (event.key === 'ArrowRight') {
+    event.preventDefault();
+    if (event.ctrlKey || event.metaKey) {
+      if (playlist.length) loadTrack(currentTrackIndex + 1 < playlist.length ? currentTrackIndex + 1 : 0, true);
+    } else {
+      nextSentence.click();
+    }
+  }
+});
+
 seek.addEventListener('input', () => {
   audio.currentTime = Number(seek.value);
   updateSubtitle(true);
