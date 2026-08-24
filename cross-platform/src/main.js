@@ -21,6 +21,17 @@ function createWindow() {
     }
   });
 
+  mainWindow.on('enter-full-screen', () => {
+    mainWindow.setMenuBarVisibility(false);
+    mainWindow.setAutoHideMenuBar(true);
+    mainWindow.webContents.send('window:fullscreen-changed', true);
+  });
+  mainWindow.on('leave-full-screen', () => {
+    mainWindow.setMenuBarVisibility(true);
+    mainWindow.setAutoHideMenuBar(false);
+    mainWindow.webContents.send('window:fullscreen-changed', false);
+  });
+
   mainWindow.loadFile(path.join(__dirname, 'index.html'));
 }
 
@@ -91,12 +102,23 @@ ipcMain.handle('path:list-srt', async (_event, folderPath) => {
 });
 ipcMain.handle('window:toggle-fullscreen', async () => {
   if (!mainWindow) return false;
-  mainWindow.setFullScreen(!mainWindow.isFullScreen());
-  return mainWindow.isFullScreen();
+  const shouldEnter = !mainWindow.isFullScreen();
+  mainWindow.setFullScreen(shouldEnter);
+  mainWindow.setMenuBarVisibility(!shouldEnter);
+  if (process.platform === 'win32' || process.platform === 'linux') {
+    mainWindow.setAutoHideMenuBar(shouldEnter);
+  }
+  mainWindow.webContents.send('window:fullscreen-changed', shouldEnter);
+  return shouldEnter;
 });
 ipcMain.handle('window:exit-fullscreen', async () => {
   if (!mainWindow) return false;
-  if (mainWindow.isFullScreen()) mainWindow.setFullScreen(false);
+  if (mainWindow.isFullScreen()) {
+    mainWindow.setFullScreen(false);
+    mainWindow.setMenuBarVisibility(true);
+    mainWindow.setAutoHideMenuBar(false);
+    mainWindow.webContents.send('window:fullscreen-changed', false);
+  }
   return mainWindow.isFullScreen();
 });
 

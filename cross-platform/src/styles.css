@@ -47,6 +47,15 @@ button:active { background: #444; }
   grid-template-columns: 0 1fr;
 }
 
+.app.fullscreen {
+  grid-template-columns: 0 1fr;
+}
+
+.app.fullscreen .playlist-pane,
+.app.fullscreen .controls {
+  display: none;
+}
+
 .playlist-pane {
   position: relative;
   overflow: hidden;
@@ -111,10 +120,15 @@ button:active { background: #444; }
   min-height: 0;
 }
 
+.app.fullscreen .player-pane {
+  grid-template-rows: 1fr;
+}
+
 .subtitle-stage {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
   gap: clamp(14px, 2.3vh, 28px);
   width: 100%;
   min-height: 0;
@@ -129,21 +143,25 @@ button:active { background: #444; }
 .subtitle-stage:hover { background: #131313; }
 
 .english {
+  width: 100%;
   color: var(--accent);
   font-size: var(--subtitle-size, 54px);
   font-weight: 800;
   line-height: 1.24;
   text-shadow: 0 2px 4px #000;
   overflow-wrap: anywhere;
+  text-align: center;
 }
 
 .translation {
+  width: 100%;
   color: rgba(255, 255, 255, 0.92);
   font-size: calc(var(--subtitle-size, 54px) * 0.58);
   font-weight: 650;
   line-height: 1.25;
   text-shadow: 0 2px 4px #000;
   overflow-wrap: anywhere;
+  text-align: center;
 }
 
 .translation:empty { display: none; }

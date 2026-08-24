@@ -18,17 +18,17 @@ FirePlayer 只播放音频，不播放视频。
 
 请从最新 Release 下载：
 
-[FirePlayer v1.8.0 Releases](https://github.com/randomwalk0101/FirePlayer/releases/tag/v1.8.0)
+[FirePlayer v1.8.1 Releases](https://github.com/randomwalk0101/FirePlayer/releases/tag/v1.8.1)
 
 Release 文件：
 
-- macOS Apple Silicon：`FirePlayer-v1.8.0-macOS-arm64.zip`
-- macOS Intel：`FirePlayer-v1.8.0-macOS-x86_64.zip`
-- Windows x64 安装版：`FirePlayer-v1.8.0-Windows-x64-Setup.exe`
-- Windows x64 便携版：`FirePlayer-v1.8.0-Windows-x64-Portable.exe`
-- Ubuntu x64 AppImage：`FirePlayer-v1.8.0-Ubuntu-x64.AppImage`
-- Ubuntu x64 deb：`FirePlayer-v1.8.0-Ubuntu-x64.deb`
-- Android 触屏 APK：`FirePlayer-v1.8.0-Android-touch.apk`
+- macOS Apple Silicon：`FirePlayer-v1.8.1-macOS-arm64.zip`
+- macOS Intel：`FirePlayer-v1.8.1-macOS-x86_64.zip`
+- Windows x64 安装版：`FirePlayer-v1.8.1-Windows-x64-Setup.exe`
+- Windows x64 便携版：`FirePlayer-v1.8.1-Windows-x64-Portable.exe`
+- Ubuntu x64 AppImage：`FirePlayer-v1.8.1-Ubuntu-x64.AppImage`
+- Ubuntu x64 deb：`FirePlayer-v1.8.1-Ubuntu-x64.deb`
+- Android 触屏 APK：`FirePlayer-v1.8.1-Android-touch.apk`
 
 ### macOS 原生版
 
@@ -79,9 +79,12 @@ Windows 版位于 `cross-platform/`，使用 Electron 实现。
 - 按音频文件名自动匹配附近的 `.srt` 字幕。
 - 切换字幕版本。
 - 播放清单支持 `Ctrl` 或 `Shift` 多选。
+- 双击播放清单项目可直接播放。
 - 右键删除一个或多个已选清单项目。
 - 单击字幕区域播放/暂停。
 - 双击字幕区域进入/退出全屏。
+- 全屏后隐藏播放清单、底部控制栏和应用菜单，进入干净的字幕全屏显示。
+- 英文或中文字幕只有一行时也保持左右居中。
 - `A-` / `A+` 调整字幕字号。
 - 字幕字号同时通过 CSS 变量和内联样式应用，专门避免 Windows 上字号不刷新或不生效的问题。
 - 键盘快捷键与 macOS 版保持一致。
@@ -104,6 +107,7 @@ Ubuntu/Linux 版同样位于 `cross-platform/`，与 Windows 版共用 Electron 
 已实现：
 
 - 与 Windows 版相同的核心播放、字幕、清单、右键删除、点击播放、双击全屏和字号调整能力。
+- 全屏字幕显示和单行字幕居中与 Windows 版保持一致。
 - 与 macOS、Windows 版相同的键盘快捷键。
 - 已配置 AppImage 和 Debian 包构建目标。
 - 字幕字号同样通过 CSS 变量和内联样式双路径应用，保证在 Ubuntu/Linux 桌面环境中可靠刷新。

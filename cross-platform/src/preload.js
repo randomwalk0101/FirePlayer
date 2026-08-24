@@ -10,6 +10,7 @@ contextBridge.exposeInMainWorld('fireplayer', {
   listSrt: (folderPath) => ipcRenderer.invoke('path:list-srt', folderPath),
   toggleFullscreen: () => ipcRenderer.invoke('window:toggle-fullscreen'),
   exitFullscreen: () => ipcRenderer.invoke('window:exit-fullscreen'),
+  onFullscreenChanged: (callback) => ipcRenderer.on('window:fullscreen-changed', (_event, isFullscreen) => callback(isFullscreen)),
   onAddAudio: (callback) => ipcRenderer.on('files:add-audio', (_event, paths) => callback(paths)),
   onAddSubtitles: (callback) => ipcRenderer.on('files:add-subtitles', (_event, paths) => callback(paths)),
   onClearPlaylist: (callback) => ipcRenderer.on('playlist:clear', callback)

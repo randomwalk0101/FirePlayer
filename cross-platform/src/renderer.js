@@ -43,6 +43,7 @@ let playbackModeValue = localStorage.getItem('FirePlayer.playbackMode') || '顺�
 let fontSize = Number(localStorage.getItem('FirePlayer.fontSize') || 54);
 let playlistVisible = true;
 let subtitleClickTimer = 0;
+let isFullscreen = false;
 
 function fileUrl(filePath) {
   const normalized = filePath.replace(/\\/g, '/');
@@ -233,6 +234,12 @@ function renderPlaylist() {
     if (index === currentTrackIndex) row.classList.add('playing');
     row.textContent = `♫  ${filePath.split(/[\\/]/).pop()}`;
     row.title = filePath;
+    row.addEventListener('click', (event) => selectPlaylistRow(event, index));
+    row.addEventListener('dblclick', async (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      await loadTrack(index, true);
+    });
     playlistEl.append(row);
   });
 }
@@ -297,10 +304,7 @@ function closeContextMenu() {
   playlistMenu.classList.remove('open');
 }
 
-playlistEl.addEventListener('click', (event) => {
-  const row = event.target.closest('.track');
-  if (!row) return;
-  const index = Number(row.dataset.index);
+function selectPlaylistRow(event, index) {
   if (event.shiftKey && selected.size) {
     const anchor = [...selected].at(-1);
     selected = new Set(Array.from({ length: Math.abs(index - anchor) + 1 }, (_, i) => Math.min(index, anchor) + i));
@@ -310,12 +314,7 @@ playlistEl.addEventListener('click', (event) => {
     selected = new Set([index]);
   }
   renderPlaylist();
-});
-
-playlistEl.addEventListener('dblclick', (event) => {
-  const row = event.target.closest('.track');
-  if (row) loadTrack(Number(row.dataset.index), true);
-});
+}
 
 playlistEl.addEventListener('contextmenu', (event) => {
   const row = event.target.closest('.track');
@@ -391,9 +390,15 @@ subtitleColor.addEventListener('input', updateButtons);
 volume.addEventListener('input', () => { audio.volume = Number(volume.value); });
 togglePlaylist.addEventListener('click', () => {
   playlistVisible = !playlistVisible;
-  appShell.classList.toggle('playlist-hidden', !playlistVisible);
+  appShell.classList.toggle('playlist-hidden', !playlistVisible && !isFullscreen);
   togglePlaylist.textContent = playlistVisible ? '隐藏清单' : '显示清单';
 });
+
+function setFullscreenState(nextValue) {
+  isFullscreen = nextValue;
+  appShell.classList.toggle('fullscreen', isFullscreen);
+  appShell.classList.toggle('playlist-hidden', !playlistVisible && !isFullscreen);
+}
 
 document.addEventListener('keydown', (event) => {
   const target = event.target;
@@ -469,6 +474,7 @@ audio.addEventListener('ended', () => {
 api.onAddAudio(addAudio);
 api.onAddSubtitles(addSubtitles);
 api.onClearPlaylist(() => clearPlaylist.click());
+api.onFullscreenChanged(setFullscreenState);
 
 updateButtons();
 renderPlaylist();
