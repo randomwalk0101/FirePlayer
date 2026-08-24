@@ -3,7 +3,7 @@ set -euo pipefail
 cd "$(dirname "$0")"
 
 APP_NAME="FirePlayer"
-VERSION="1.8.1"
+VERSION="1.8.2"
 MIN_MACOS="12.0"
 APP_DIR="$PWD/${APP_NAME}.app"
 CONTENTS="$APP_DIR/Contents"

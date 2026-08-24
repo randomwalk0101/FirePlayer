@@ -18,17 +18,17 @@ FirePlayer 只播放音频，不播放视频。
 
 请从最新 Release 下载：
 
-[FirePlayer v1.8.1 Releases](https://github.com/randomwalk0101/FirePlayer/releases/tag/v1.8.1)
+[FirePlayer v1.8.2 Releases](https://github.com/randomwalk0101/FirePlayer/releases/tag/v1.8.2)
 
 Release 文件：
 
-- macOS Apple Silicon：`FirePlayer-v1.8.1-macOS-arm64.zip`
-- macOS Intel：`FirePlayer-v1.8.1-macOS-x86_64.zip`
-- Windows x64 安装版：`FirePlayer-v1.8.1-Windows-x64-Setup.exe`
-- Windows x64 便携版：`FirePlayer-v1.8.1-Windows-x64-Portable.exe`
-- Ubuntu x64 AppImage：`FirePlayer-v1.8.1-Ubuntu-x64.AppImage`
-- Ubuntu x64 deb：`FirePlayer-v1.8.1-Ubuntu-x64.deb`
-- Android 触屏 APK：`FirePlayer-v1.8.1-Android-touch.apk`
+- macOS Apple Silicon：`FirePlayer-v1.8.2-macOS-arm64.zip`
+- macOS Intel：`FirePlayer-v1.8.2-macOS-x86_64.zip`
+- Windows x64 安装版：`FirePlayer-v1.8.2-Windows-x64-Setup.exe`
+- Windows x64 便携版：`FirePlayer-v1.8.2-Windows-x64-Portable.exe`
+- Ubuntu x64 AppImage：`FirePlayer-v1.8.2-Ubuntu-x64.AppImage`
+- Ubuntu x64 deb：`FirePlayer-v1.8.2-Ubuntu-x64.deb`
+- Android 触屏 APK：`FirePlayer-v1.8.2-Android-touch.apk`
 
 ### macOS 原生版
 
@@ -109,6 +109,7 @@ Ubuntu/Linux 版同样位于 `cross-platform/`，与 Windows 版共用 Electron 
 - 与 Windows 版相同的核心播放、字幕、清单、右键删除、点击播放、双击全屏和字号调整能力。
 - 全屏字幕显示和单行字幕居中与 Windows 版保持一致。
 - 与 macOS、Windows 版相同的键盘快捷键。
+- Linux 安装包已默认加入 `--no-sandbox` 启动参数，避免常见 Ubuntu 桌面环境下 Electron 沙盒导致双击打不开。
 - 已配置 AppImage 和 Debian 包构建目标。
 - 字幕字号同样通过 CSS 变量和内联样式双路径应用，保证在 Ubuntu/Linux 桌面环境中可靠刷新。
 

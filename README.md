@@ -18,17 +18,17 @@ FirePlayer plays audio files only. It does not play video files.
 
 Download the latest release from:
 
-[FirePlayer v1.8.1 Releases](https://github.com/randomwalk0101/FirePlayer/releases/tag/v1.8.1)
+[FirePlayer v1.8.2 Releases](https://github.com/randomwalk0101/FirePlayer/releases/tag/v1.8.2)
 
 Release files:
 
-- macOS Apple Silicon: `FirePlayer-v1.8.1-macOS-arm64.zip`
-- macOS Intel: `FirePlayer-v1.8.1-macOS-x86_64.zip`
-- Windows x64 installer: `FirePlayer-v1.8.1-Windows-x64-Setup.exe`
-- Windows x64 portable: `FirePlayer-v1.8.1-Windows-x64-Portable.exe`
-- Ubuntu x64 AppImage: `FirePlayer-v1.8.1-Ubuntu-x64.AppImage`
-- Ubuntu x64 deb: `FirePlayer-v1.8.1-Ubuntu-x64.deb`
-- Android touch APK: `FirePlayer-v1.8.1-Android-touch.apk`
+- macOS Apple Silicon: `FirePlayer-v1.8.2-macOS-arm64.zip`
+- macOS Intel: `FirePlayer-v1.8.2-macOS-x86_64.zip`
+- Windows x64 installer: `FirePlayer-v1.8.2-Windows-x64-Setup.exe`
+- Windows x64 portable: `FirePlayer-v1.8.2-Windows-x64-Portable.exe`
+- Ubuntu x64 AppImage: `FirePlayer-v1.8.2-Ubuntu-x64.AppImage`
+- Ubuntu x64 deb: `FirePlayer-v1.8.2-Ubuntu-x64.deb`
+- Android touch APK: `FirePlayer-v1.8.2-Android-touch.apk`
 
 ### macOS Native Version
 
@@ -109,6 +109,7 @@ Implemented:
 - Same core playback, subtitle, playlist, right-click deletion, click-to-play, double-click-fullscreen, and font-size controls as the Windows version.
 - Full-screen subtitle-only view and single-line subtitle centering match the Windows version.
 - Same keyboard shortcuts as the macOS and Windows versions.
+- Linux packages include a default `--no-sandbox` launch argument to avoid Electron sandbox startup failures on common Ubuntu desktops.
 - Linux packaging targets are configured for AppImage and Debian package output.
 - Subtitle size is applied through both CSS variables and direct inline styles so it updates reliably on Ubuntu/Linux desktop environments.
 

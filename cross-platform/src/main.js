@@ -6,6 +6,10 @@ const audioExtensions = new Set(['.mp3', '.m4a', '.wav', '.aac', '.flac', '.aiff
 
 let mainWindow;
 
+if (process.platform === 'linux') {
+  app.commandLine.appendSwitch('no-sandbox');
+}
+
 function createWindow() {
   mainWindow = new BrowserWindow({
     width: 1240,
