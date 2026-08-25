@@ -260,8 +260,6 @@ function updateButtons() {
   fontSizeLabel.textContent = `字号 ${fontSize}`;
   document.documentElement.style.setProperty('--subtitle-size', `${fontSize}px`);
   document.documentElement.style.setProperty('--translation-size', `${Math.max(18, Math.round(fontSize * 0.58))}px`);
-  englishText.style.fontSize = `${fontSize}px`;
-  translationText.style.fontSize = `${Math.max(18, Math.round(fontSize * 0.58))}px`;
   document.documentElement.style.setProperty('--accent', subtitleColor.value);
 }
 

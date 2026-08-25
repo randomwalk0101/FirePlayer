@@ -18,17 +18,17 @@ FirePlayer plays audio files only. It does not play video files.
 
 Download the latest release from:
 
-[FirePlayer v1.8.3 Releases](https://github.com/randomwalk0101/FirePlayer/releases/tag/v1.8.3)
+[FirePlayer v1.8.4 Releases](https://github.com/randomwalk0101/FirePlayer/releases/tag/v1.8.4)
 
 Release files:
 
-- macOS Apple Silicon: `FirePlayer-v1.8.3-macOS-arm64.zip`
-- macOS Intel: `FirePlayer-v1.8.3-macOS-x86_64.zip`
-- Windows x64 installer: `FirePlayer-v1.8.3-Windows-x64-Setup.exe`
-- Windows x64 portable: `FirePlayer-v1.8.3-Windows-x64-Portable.exe`
-- Ubuntu x64 AppImage: `FirePlayer-v1.8.3-Ubuntu-x64.AppImage`
-- Ubuntu x64 deb: `FirePlayer-v1.8.3-Ubuntu-x64.deb`
-- Android touch APK: `FirePlayer-v1.8.3-Android-touch.apk`
+- macOS Apple Silicon: `FirePlayer-v1.8.4-macOS-arm64.zip`
+- macOS Intel: `FirePlayer-v1.8.4-macOS-x86_64.zip`
+- Windows x64 installer: `FirePlayer-v1.8.4-Windows-x64-Setup.exe`
+- Windows x64 portable: `FirePlayer-v1.8.4-Windows-x64-Portable.exe`
+- Ubuntu x64 AppImage: `FirePlayer-v1.8.4-Ubuntu-x64.AppImage`
+- Ubuntu x64 deb: `FirePlayer-v1.8.4-Ubuntu-x64.deb`
+- Android touch APK: `FirePlayer-v1.8.4-Android-touch.apk`
 
 ### macOS Native Version
 
@@ -40,6 +40,7 @@ Recent improvements:
 - Right-click playlist deletion can remove one or many selected items.
 - Single-clicking the subtitle area toggles play/pause.
 - Double-clicking the subtitle area enters or exits full screen.
+- Drag the divider between the playlist and subtitles to resize the playlist pane.
 - Keyboard shortcuts are available for play/pause, full screen, sentence navigation, and track navigation.
 - Subtitle file selector supports multiple matching `.srt` variants for the current audio.
 - Subtitle display modes include English, bilingual, stress skeleton, speech-flow annotation, and pronunciation hints.
@@ -88,7 +89,7 @@ Implemented:
 - Full-screen subtitle sizing is constrained to avoid oversized or distorted subtitle layout on Windows and Ubuntu.
 - Single-line English or Chinese subtitles stay centered.
 - Adjustable subtitle size with `A-` and `A+`.
-- Subtitle size is applied through both CSS variables and direct inline styles so it updates reliably on Windows.
+- Subtitle size is applied through CSS variables so normal and full-screen layouts can use different platform-safe sizing rules.
 - Keyboard shortcuts match the macOS version.
 - Subtitle color, volume, speed, previous/next track, previous/next sentence, and playback mode controls.
 
@@ -114,7 +115,7 @@ Implemented:
 - Same keyboard shortcuts as the macOS and Windows versions.
 - Linux packages include a default `--no-sandbox` launch argument to avoid Electron sandbox startup failures on common Ubuntu desktops.
 - Linux packaging targets are configured for AppImage and Debian package output.
-- Subtitle size is applied through both CSS variables and direct inline styles so it updates reliably on Ubuntu/Linux desktop environments.
+- Subtitle size uses CSS variables and full-screen constraints to avoid oversized layouts on Ubuntu/Linux desktops.
 
 Build on Ubuntu:
 

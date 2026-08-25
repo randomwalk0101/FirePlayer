@@ -48,8 +48,8 @@ jobs:
         shell: pwsh
         run: |
           New-Item -ItemType Directory -Force release | Out-Null
-          Copy-Item "dist/FirePlayer Setup 1.8.3.exe" "release/FirePlayer-${{ github.ref_name }}-Windows-x64-Setup.exe"
-          Copy-Item "dist/FirePlayer 1.8.3.exe" "release/FirePlayer-${{ github.ref_name }}-Windows-x64-Portable.exe"
+          Copy-Item "dist/FirePlayer Setup 1.8.4.exe" "release/FirePlayer-${{ github.ref_name }}-Windows-x64-Setup.exe"
+          Copy-Item "dist/FirePlayer 1.8.4.exe" "release/FirePlayer-${{ github.ref_name }}-Windows-x64-Portable.exe"
       - uses: actions/upload-artifact@v4
         with:
           name: windows-x64
@@ -73,8 +73,8 @@ jobs:
       - name: Rename Ubuntu assets
         run: |
           mkdir -p release
-          cp dist/FirePlayer-1.8.3.AppImage release/FirePlayer-${{ github.ref_name }}-Ubuntu-x64.AppImage
-          cp dist/fireplayer-cross-platform_1.8.3_amd64.deb release/FirePlayer-${{ github.ref_name }}-Ubuntu-x64.deb
+          cp dist/FirePlayer-1.8.4.AppImage release/FirePlayer-${{ github.ref_name }}-Ubuntu-x64.AppImage
+          cp dist/fireplayer-cross-platform_1.8.4_amd64.deb release/FirePlayer-${{ github.ref_name }}-Ubuntu-x64.deb
       - uses: actions/upload-artifact@v4
         with:
           name: ubuntu-x64
@@ -132,13 +132,13 @@ jobs:
             - Android touch APK: `FirePlayer-${{ github.ref_name }}-Android-touch.apk`
 
             Highlights:
-            - macOS playlist multi-select and right-click deletion.
+            - macOS playlist multi-select, right-click deletion, and draggable playlist width.
             - Click subtitle area to play/pause.
             - Double-click subtitle area to enter/exit full screen.
             - Windows/Ubuntu playlist double-click playback is fixed.
             - Windows/Ubuntu single-line subtitles are centered.
             - Windows/Ubuntu full screen now hides the playlist, controls, and app menu.
-            - Windows/Ubuntu full-screen subtitle sizing is constrained to avoid distorted layouts.
+            - Windows/Ubuntu full-screen subtitle sizing no longer uses inline font sizes, avoiding oversized vertical text layouts.
             - Windows/Ubuntu playlist width can be adjusted by dragging the divider.
             - Ubuntu/Linux packages launch with `--no-sandbox` by default to avoid Electron sandbox startup failures.
             - New Electron-based Windows and Ubuntu/Linux version.

@@ -443,8 +443,12 @@ final class PlayerViewController: NSViewController, AVAudioPlayerDelegate, NSTab
     private var isPlaylistVisible = true
     private var subtitleDisplayMode: SubtitleDisplayMode = .english
     private var playbackMode: PlaybackMode = .sequential
+    private var visiblePlaylistWidth: CGFloat {
+        min(520, max(190, playlistWidthConstraint?.constant ?? 285))
+    }
 
     private let playlistContainer = NSView()
+    private let playlistResizer = NSView()
     private let controlsContainer = NSView()
     private let playlistTitle = NSTextField(labelWithString: "播放清单")
     private let clearPlaylistButton = NSButton(title: "清空清单", target: nil, action: nil)
@@ -500,6 +504,10 @@ final class PlayerViewController: NSViewController, AVAudioPlayerDelegate, NSTab
         if let raw = UserDefaults.standard.string(forKey: "FirePlayer.playbackMode"), let mode = PlaybackMode(rawValue: raw) {
             playbackMode = mode
         }
+        let savedPlaylistWidth = UserDefaults.standard.double(forKey: "FirePlayer.playlistWidth")
+        if savedPlaylistWidth > 0 {
+            applyPlaylistWidth(CGFloat(savedPlaylistWidth), save: false)
+        }
         refreshModeButtons()
 
         view.window?.acceptsMouseMovedEvents = true
@@ -512,6 +520,12 @@ final class PlayerViewController: NSViewController, AVAudioPlayerDelegate, NSTab
         playlistContainer.layer?.backgroundColor = NSColor(calibratedWhite: 0.095, alpha: 1).cgColor
         playlistContainer.layer?.borderColor = NSColor.separatorColor.cgColor
         playlistContainer.layer?.borderWidth = 1
+
+        playlistResizer.wantsLayer = true
+        playlistResizer.layer?.backgroundColor = NSColor.separatorColor.withAlphaComponent(0.55).cgColor
+        playlistResizer.toolTip = "拖动调整播放清单宽度"
+        playlistResizer.addGestureRecognizer(NSPanGestureRecognizer(target: self, action: #selector(resizePlaylist(_:))))
+        playlistResizer.addCursorRect(playlistResizer.bounds, cursor: .resizeLeftRight)
 
         playlistTitle.font = NSFont.systemFont(ofSize: 16, weight: .semibold)
         playlistTitle.textColor = .labelColor
@@ -649,7 +663,7 @@ final class PlayerViewController: NSViewController, AVAudioPlayerDelegate, NSTab
 
         controlsContainer.translatesAutoresizingMaskIntoConstraints = false
 
-        [playlistContainer, subtitleLabel, controlsContainer].forEach {
+        [playlistContainer, playlistResizer, subtitleLabel, controlsContainer].forEach {
             $0.translatesAutoresizingMaskIntoConstraints = false
             view.addSubview($0)
         }
@@ -677,6 +691,11 @@ final class PlayerViewController: NSViewController, AVAudioPlayerDelegate, NSTab
             playlistContainer.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             playlistWidthConstraint,
 
+            playlistResizer.topAnchor.constraint(equalTo: view.topAnchor),
+            playlistResizer.leadingAnchor.constraint(equalTo: playlistContainer.trailingAnchor),
+            playlistResizer.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            playlistResizer.widthAnchor.constraint(equalToConstant: 7),
+
             playlistTitle.topAnchor.constraint(equalTo: playlistContainer.topAnchor, constant: 20),
             playlistTitle.leadingAnchor.constraint(equalTo: playlistContainer.leadingAnchor, constant: 18),
             clearPlaylistButton.trailingAnchor.constraint(equalTo: playlistContainer.trailingAnchor, constant: -14),
@@ -694,7 +713,7 @@ final class PlayerViewController: NSViewController, AVAudioPlayerDelegate, NSTab
             emptyPlaylistLabel.leadingAnchor.constraint(greaterThanOrEqualTo: playlistContainer.leadingAnchor, constant: 20),
             emptyPlaylistLabel.trailingAnchor.constraint(lessThanOrEqualTo: playlistContainer.trailingAnchor, constant: -20),
 
-            controlsContainer.leadingAnchor.constraint(equalTo: playlistContainer.trailingAnchor),
+            controlsContainer.leadingAnchor.constraint(equalTo: playlistResizer.trailingAnchor),
             controlsContainer.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             controlsContainer.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             controlsContainer.heightAnchor.constraint(equalToConstant: 166),
@@ -720,7 +739,7 @@ final class PlayerViewController: NSViewController, AVAudioPlayerDelegate, NSTab
             settingsCenterConstraint,
 
             subtitleLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 12),
-            subtitleLabel.leadingAnchor.constraint(equalTo: playlistContainer.trailingAnchor, constant: 24),
+            subtitleLabel.leadingAnchor.constraint(equalTo: playlistResizer.trailingAnchor, constant: 24),
             subtitleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24),
             subtitleBottomToControlsConstraint,
 
@@ -1230,14 +1249,44 @@ final class PlayerViewController: NSViewController, AVAudioPlayerDelegate, NSTab
     @objc func togglePlaylist() {
         isPlaylistVisible.toggle()
         playlistContainer.isHidden = !isPlaylistVisible
-        playlistWidthConstraint.constant = isPlaylistVisible ? 285 : 0
-        transportCenterConstraint.constant = isPlaylistVisible ? 142.5 : 0
-        sentenceCenterConstraint.constant = isPlaylistVisible ? 142.5 : 0
-        settingsCenterConstraint.constant = isPlaylistVisible ? 142.5 : 0
+        playlistResizer.isHidden = !isPlaylistVisible
+        let savedWidth = CGFloat(UserDefaults.standard.double(forKey: "FirePlayer.playlistWidth"))
+        let width = isPlaylistVisible ? min(520, max(190, savedWidth > 0 ? savedWidth : 285)) : 0
+        playlistWidthConstraint.constant = width
+        updateContentCenterOffsets()
         togglePlaylistButton.title = isPlaylistVisible ? "隐藏清单" : "显示清单"
         updateResponsiveControls()
         view.needsLayout = true
         view.layoutSubtreeIfNeeded()
+    }
+
+    @objc private func resizePlaylist(_ recognizer: NSPanGestureRecognizer) {
+        guard isPlaylistVisible else { return }
+        switch recognizer.state {
+        case .began, .changed:
+            let translation = recognizer.translation(in: view)
+            applyPlaylistWidth(visiblePlaylistWidth + translation.x, save: recognizer.state == .changed)
+            recognizer.setTranslation(.zero, in: view)
+        default:
+            UserDefaults.standard.set(Double(visiblePlaylistWidth), forKey: "FirePlayer.playlistWidth")
+        }
+    }
+
+    private func applyPlaylistWidth(_ width: CGFloat, save: Bool = true) {
+        let clamped = min(520, max(190, width))
+        playlistWidthConstraint.constant = clamped
+        updateContentCenterOffsets()
+        updateResponsiveControls()
+        if save { UserDefaults.standard.set(Double(clamped), forKey: "FirePlayer.playlistWidth") }
+        view.needsLayout = true
+        view.layoutSubtreeIfNeeded()
+    }
+
+    private func updateContentCenterOffsets() {
+        let offset = isPlaylistVisible ? (playlistWidthConstraint.constant + 7) / 2 : 0
+        transportCenterConstraint.constant = offset
+        sentenceCenterConstraint.constant = offset
+        settingsCenterConstraint.constant = offset
     }
 
     private func normalizedStem(_ value: String) -> String {
