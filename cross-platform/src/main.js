@@ -18,6 +18,7 @@ function createWindow() {
     minHeight: 620,
     title: 'FirePlayer',
     backgroundColor: '#101010',
+    fullscreenable: true,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       contextIsolation: true,
@@ -106,8 +107,12 @@ ipcMain.handle('path:list-srt', async (_event, folderPath) => {
 });
 ipcMain.handle('window:toggle-fullscreen', async () => {
   if (!mainWindow) return false;
-  const shouldEnter = !mainWindow.isFullScreen();
-  mainWindow.setFullScreen(shouldEnter);
+  const shouldEnter = !(mainWindow.isFullScreen() || mainWindow.isKiosk());
+  if (process.platform === 'win32' || process.platform === 'linux') {
+    mainWindow.setKiosk(shouldEnter);
+  } else {
+    mainWindow.setFullScreen(shouldEnter);
+  }
   mainWindow.setMenuBarVisibility(!shouldEnter);
   if (process.platform === 'win32' || process.platform === 'linux') {
     mainWindow.setAutoHideMenuBar(shouldEnter);
@@ -117,7 +122,8 @@ ipcMain.handle('window:toggle-fullscreen', async () => {
 });
 ipcMain.handle('window:exit-fullscreen', async () => {
   if (!mainWindow) return false;
-  if (mainWindow.isFullScreen()) {
+  if (mainWindow.isFullScreen() || mainWindow.isKiosk()) {
+    if (mainWindow.isKiosk()) mainWindow.setKiosk(false);
     mainWindow.setFullScreen(false);
     mainWindow.setMenuBarVisibility(true);
     mainWindow.setAutoHideMenuBar(false);

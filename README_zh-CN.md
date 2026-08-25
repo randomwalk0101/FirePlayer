@@ -18,17 +18,17 @@ FirePlayer 只播放音频，不播放视频。
 
 请从最新 Release 下载：
 
-[FirePlayer v1.8.2 Releases](https://github.com/randomwalk0101/FirePlayer/releases/tag/v1.8.2)
+[FirePlayer v1.8.3 Releases](https://github.com/randomwalk0101/FirePlayer/releases/tag/v1.8.3)
 
 Release 文件：
 
-- macOS Apple Silicon：`FirePlayer-v1.8.2-macOS-arm64.zip`
-- macOS Intel：`FirePlayer-v1.8.2-macOS-x86_64.zip`
-- Windows x64 安装版：`FirePlayer-v1.8.2-Windows-x64-Setup.exe`
-- Windows x64 便携版：`FirePlayer-v1.8.2-Windows-x64-Portable.exe`
-- Ubuntu x64 AppImage：`FirePlayer-v1.8.2-Ubuntu-x64.AppImage`
-- Ubuntu x64 deb：`FirePlayer-v1.8.2-Ubuntu-x64.deb`
-- Android 触屏 APK：`FirePlayer-v1.8.2-Android-touch.apk`
+- macOS Apple Silicon：`FirePlayer-v1.8.3-macOS-arm64.zip`
+- macOS Intel：`FirePlayer-v1.8.3-macOS-x86_64.zip`
+- Windows x64 安装版：`FirePlayer-v1.8.3-Windows-x64-Setup.exe`
+- Windows x64 便携版：`FirePlayer-v1.8.3-Windows-x64-Portable.exe`
+- Ubuntu x64 AppImage：`FirePlayer-v1.8.3-Ubuntu-x64.AppImage`
+- Ubuntu x64 deb：`FirePlayer-v1.8.3-Ubuntu-x64.deb`
+- Android 触屏 APK：`FirePlayer-v1.8.3-Android-touch.apk`
 
 ### macOS 原生版
 
@@ -80,10 +80,12 @@ Windows 版位于 `cross-platform/`，使用 Electron 实现。
 - 切换字幕版本。
 - 播放清单支持 `Ctrl` 或 `Shift` 多选。
 - 双击播放清单项目可直接播放。
+- 可以拖动播放清单和字幕区域之间的分隔条，调整播放清单宽度。
 - 右键删除一个或多个已选清单项目。
 - 单击字幕区域播放/暂停。
 - 双击字幕区域进入/退出全屏。
 - 全屏后隐藏播放清单、底部控制栏和应用菜单，进入干净的字幕全屏显示。
+- 全屏字幕字号加了窗口比例约束，避免 Windows/Ubuntu 下全屏后字幕过大或布局变形。
 - 英文或中文字幕只有一行时也保持左右居中。
 - `A-` / `A+` 调整字幕字号。
 - 字幕字号同时通过 CSS 变量和内联样式应用，专门避免 Windows 上字号不刷新或不生效的问题。
@@ -108,6 +110,7 @@ Ubuntu/Linux 版同样位于 `cross-platform/`，与 Windows 版共用 Electron 
 
 - 与 Windows 版相同的核心播放、字幕、清单、右键删除、点击播放、双击全屏和字号调整能力。
 - 全屏字幕显示和单行字幕居中与 Windows 版保持一致。
+- 播放清单/字幕区域之间的分隔条支持拖动调整宽度。
 - 与 macOS、Windows 版相同的键盘快捷键。
 - Linux 安装包已默认加入 `--no-sandbox` 启动参数，避免常见 Ubuntu 桌面环境下 Electron 沙盒导致双击打不开。
 - 已配置 AppImage 和 Debian 包构建目标。

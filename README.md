@@ -18,17 +18,17 @@ FirePlayer plays audio files only. It does not play video files.
 
 Download the latest release from:
 
-[FirePlayer v1.8.2 Releases](https://github.com/randomwalk0101/FirePlayer/releases/tag/v1.8.2)
+[FirePlayer v1.8.3 Releases](https://github.com/randomwalk0101/FirePlayer/releases/tag/v1.8.3)
 
 Release files:
 
-- macOS Apple Silicon: `FirePlayer-v1.8.2-macOS-arm64.zip`
-- macOS Intel: `FirePlayer-v1.8.2-macOS-x86_64.zip`
-- Windows x64 installer: `FirePlayer-v1.8.2-Windows-x64-Setup.exe`
-- Windows x64 portable: `FirePlayer-v1.8.2-Windows-x64-Portable.exe`
-- Ubuntu x64 AppImage: `FirePlayer-v1.8.2-Ubuntu-x64.AppImage`
-- Ubuntu x64 deb: `FirePlayer-v1.8.2-Ubuntu-x64.deb`
-- Android touch APK: `FirePlayer-v1.8.2-Android-touch.apk`
+- macOS Apple Silicon: `FirePlayer-v1.8.3-macOS-arm64.zip`
+- macOS Intel: `FirePlayer-v1.8.3-macOS-x86_64.zip`
+- Windows x64 installer: `FirePlayer-v1.8.3-Windows-x64-Setup.exe`
+- Windows x64 portable: `FirePlayer-v1.8.3-Windows-x64-Portable.exe`
+- Ubuntu x64 AppImage: `FirePlayer-v1.8.3-Ubuntu-x64.AppImage`
+- Ubuntu x64 deb: `FirePlayer-v1.8.3-Ubuntu-x64.deb`
+- Android touch APK: `FirePlayer-v1.8.3-Android-touch.apk`
 
 ### macOS Native Version
 
@@ -80,10 +80,12 @@ Implemented:
 - Switch subtitle variants.
 - Playlist multi-select with `Ctrl` or `Shift`.
 - Double-click a playlist item to play it.
+- Drag the divider between the playlist and subtitles to resize the playlist pane.
 - Right-click deletion for one or many selected playlist items.
 - Single-click subtitle area to play/pause.
 - Double-click subtitle area to enter/exit full screen.
 - Full screen hides the playlist, bottom controls, and app menu for a clean subtitle-only view.
+- Full-screen subtitle sizing is constrained to avoid oversized or distorted subtitle layout on Windows and Ubuntu.
 - Single-line English or Chinese subtitles stay centered.
 - Adjustable subtitle size with `A-` and `A+`.
 - Subtitle size is applied through both CSS variables and direct inline styles so it updates reliably on Windows.
@@ -108,6 +110,7 @@ Implemented:
 
 - Same core playback, subtitle, playlist, right-click deletion, click-to-play, double-click-fullscreen, and font-size controls as the Windows version.
 - Full-screen subtitle-only view and single-line subtitle centering match the Windows version.
+- The playlist/subtitle divider is draggable.
 - Same keyboard shortcuts as the macOS and Windows versions.
 - Linux packages include a default `--no-sandbox` launch argument to avoid Electron sandbox startup failures on common Ubuntu desktops.
 - Linux packaging targets are configured for AppImage and Debian package output.

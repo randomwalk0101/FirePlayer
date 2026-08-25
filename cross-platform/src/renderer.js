@@ -2,6 +2,7 @@ const api = window.fireplayer;
 const audio = document.getElementById('audio');
 const appShell = document.querySelector('.app');
 const playlistEl = document.getElementById('playlist');
+const playlistResizer = document.getElementById('playlistResizer');
 const emptyPlaylist = document.getElementById('emptyPlaylist');
 const subtitleStage = document.getElementById('subtitleStage');
 const englishText = document.getElementById('englishText');
@@ -44,6 +45,14 @@ let fontSize = Number(localStorage.getItem('FirePlayer.fontSize') || 54);
 let playlistVisible = true;
 let subtitleClickTimer = 0;
 let isFullscreen = false;
+let playlistWidth = Number(localStorage.getItem('FirePlayer.playlistWidth') || 285);
+let isResizingPlaylist = false;
+
+function applyPlaylistWidth(width) {
+  playlistWidth = Math.min(520, Math.max(190, Math.round(width)));
+  document.documentElement.style.setProperty('--playlist-width', `${playlistWidth}px`);
+  localStorage.setItem('FirePlayer.playlistWidth', String(playlistWidth));
+}
 
 function fileUrl(filePath) {
   const normalized = filePath.replace(/\\/g, '/');
@@ -250,6 +259,7 @@ function updateButtons() {
   playbackMode.textContent = playbackModeValue;
   fontSizeLabel.textContent = `字号 ${fontSize}`;
   document.documentElement.style.setProperty('--subtitle-size', `${fontSize}px`);
+  document.documentElement.style.setProperty('--translation-size', `${Math.max(18, Math.round(fontSize * 0.58))}px`);
   englishText.style.fontSize = `${fontSize}px`;
   translationText.style.fontSize = `${Math.max(18, Math.round(fontSize * 0.58))}px`;
   document.documentElement.style.setProperty('--accent', subtitleColor.value);
@@ -398,7 +408,33 @@ function setFullscreenState(nextValue) {
   isFullscreen = nextValue;
   appShell.classList.toggle('fullscreen', isFullscreen);
   appShell.classList.toggle('playlist-hidden', !playlistVisible && !isFullscreen);
+  updateButtons();
 }
+
+playlistResizer.addEventListener('pointerdown', (event) => {
+  if (isFullscreen || !playlistVisible) return;
+  isResizingPlaylist = true;
+  appShell.classList.add('resizing');
+  playlistResizer.setPointerCapture(event.pointerId);
+  event.preventDefault();
+});
+
+playlistResizer.addEventListener('pointermove', (event) => {
+  if (!isResizingPlaylist) return;
+  applyPlaylistWidth(event.clientX);
+});
+
+function stopPlaylistResize(event) {
+  if (!isResizingPlaylist) return;
+  isResizingPlaylist = false;
+  appShell.classList.remove('resizing');
+  if (event?.pointerId != null && playlistResizer.hasPointerCapture(event.pointerId)) {
+    playlistResizer.releasePointerCapture(event.pointerId);
+  }
+}
+
+playlistResizer.addEventListener('pointerup', stopPlaylistResize);
+playlistResizer.addEventListener('pointercancel', stopPlaylistResize);
 
 document.addEventListener('keydown', (event) => {
   const target = event.target;
@@ -476,5 +512,6 @@ api.onAddSubtitles(addSubtitles);
 api.onClearPlaylist(() => clearPlaylist.click());
 api.onFullscreenChanged(setFullscreenState);
 
+applyPlaylistWidth(playlistWidth);
 updateButtons();
 renderPlaylist();

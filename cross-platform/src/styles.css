@@ -7,6 +7,7 @@
   --text: #eeeeee;
   --muted: #a8a8a8;
   --accent: #ffe85c;
+  --playlist-width: 285px;
 }
 
 * { box-sizing: border-box; }
@@ -37,21 +38,22 @@ button:active { background: #444; }
 
 .app {
   display: grid;
-  grid-template-columns: 285px 1fr;
+  grid-template-columns: var(--playlist-width) 7px 1fr;
   width: 100vw;
   height: 100vh;
   background: var(--bg);
 }
 
 .app.playlist-hidden {
-  grid-template-columns: 0 1fr;
+  grid-template-columns: 0 0 1fr;
 }
 
 .app.fullscreen {
-  grid-template-columns: 0 1fr;
+  grid-template-columns: 0 0 1fr;
 }
 
 .app.fullscreen .playlist-pane,
+.app.fullscreen .playlist-resizer,
 .app.fullscreen .controls {
   display: none;
 }
@@ -62,6 +64,19 @@ button:active { background: #444; }
   min-width: 0;
   background: var(--panel);
   border-right: 1px solid var(--line);
+}
+
+.playlist-resizer {
+  width: 7px;
+  min-width: 7px;
+  cursor: col-resize;
+  background: linear-gradient(to right, #111, #2d2d2d, #111);
+  border-right: 1px solid #0b0b0b;
+}
+
+.playlist-resizer:hover,
+.app.resizing .playlist-resizer {
+  background: #4a4a4a;
 }
 
 .playlist-header {
@@ -142,6 +157,13 @@ button:active { background: #444; }
 
 .subtitle-stage:hover { background: #131313; }
 
+.app.fullscreen .subtitle-stage {
+  height: 100vh;
+  padding: clamp(24px, 6vh, 72px) clamp(28px, 5vw, 96px);
+}
+
+.app.fullscreen .subtitle-stage:hover { background: transparent; }
+
 .english {
   width: 100%;
   color: var(--accent);
@@ -153,6 +175,11 @@ button:active { background: #444; }
   text-align: center;
 }
 
+.app.fullscreen .english {
+  font-size: min(var(--subtitle-size, 54px), 11vw, 20vh) !important;
+  max-width: 100%;
+}
+
 .translation {
   width: 100%;
   color: rgba(255, 255, 255, 0.92);
@@ -162,6 +189,11 @@ button:active { background: #444; }
   text-shadow: 0 2px 4px #000;
   overflow-wrap: anywhere;
   text-align: center;
+}
+
+.app.fullscreen .translation {
+  font-size: min(var(--translation-size, 31px), 7vw, 11vh) !important;
+  max-width: 100%;
 }
 
 .translation:empty { display: none; }
@@ -240,7 +272,7 @@ button:active { background: #444; }
 .context-menu button { width: 100%; text-align: left; }
 
 @media (max-width: 900px) {
-  .app { grid-template-columns: 245px 1fr; }
+  :root { --playlist-width: 245px; }
   .button-row.compact { font-size: 12px; gap: 5px; }
   button, select { padding-inline: 7px; }
 }
